@@ -1,0 +1,84 @@
+#homepage-container {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+
+    background-color: white;
+}
+#welcome {
+    position: relative;
+    font-family: "Arial Narrow", serif;
+    z-index: 2;
+    font-size: calc(5vw + 15px);
+    color: #2c2c2c;
+    font-weight: bold;
+}
+.homepage-logo {
+    width: 80px;
+    height: 80px;
+    opacity: 0.8;
+    background-image: url(../favicon.ico);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+#start-chatting {
+    z-index: 1;
+    border-radius: 0;
+    background-color: #637ead !important;
+    border: transparent !important;
+    letter-spacing: 0.1em;
+    transition: 0.5s;
+}
+
+#start-chatting:hover {
+    background-color: #3d5d94 !important;
+    letter-spacing: 0.2em;
+    box-shadow: 0 0 30px rgba(17, 54, 99, 0.3);
+}
+
+#description {
+    font-family: sans-serif;
+    font-weight: lighter;
+    font-size: calc(1vw + 10px);
+}
+#welcome-container {
+    position: absolute;
+    height: 100%;
+    width: 50%;
+    left: 0;
+
+    padding: 0 0 0 90px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: visible;
+}
+.homepage-pic {
+    position: absolute;
+    right: 0;
+    height: 100%;
+    width: 50%;
+    background-image: url(../picture-white.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: left;
+}
+
+#log-out-button {
+    position: relative;
+    font-family: sans-serif;
+    font-weight: lighter;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    margin-top: 25px;
+    opacity: 0.6;
+    color: grey;
+}
+
+#log {
+    font-weight: lighter;
+    opacity: 0.6;
+    color: grey;
+}

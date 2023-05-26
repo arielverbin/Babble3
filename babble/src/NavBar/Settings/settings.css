@@ -1,0 +1,45 @@
+#profile-pic-clickable {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+}
+
+#profile-pic-clickable:hover {
+  opacity: 0.5;
+}
+
+#profile-pic-change {
+  display: none;
+}
+
+#display-name-change {
+  outline: none;
+  border: none;
+  background-color: transparent;
+  position: relative;
+  top: 3px;
+  width: 350px;
+
+  margin-left: 10px;
+}
+
+.modal-body label {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+#log-out {
+  left: 0;
+  border: 1px solid white;
+  float: right;
+  position: relative;
+}
+
+#log-out:hover {
+  background-color: transparent;
+  color: #dc3545;
+  border: 1px solid #dc3545;
+}
+
+#close-btn {
+  margin-right: 5px;
+}

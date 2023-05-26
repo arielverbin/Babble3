@@ -1,0 +1,154 @@
+
+#login-icon {
+    z-index: 1;
+    position: fixed;
+    top: 30px;
+    left: 30px;
+
+    width: 50px;
+    height: 50px;
+    background-image: url(../../favicon.ico);
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    opacity: 0.2;
+}
+
+
+#background {
+    position: fixed;
+    height: 100%;
+    width: 50%;
+    left: 0;
+    background-color: #d6e7f9;
+}
+
+
+#image {
+    position: fixed;
+    height: 100%;
+    width: 55%;
+    left: 0;
+    background-image: url(../../../public/picture.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.login-right-container {
+    position: absolute;
+    height: 100%;
+    min-height: 550px;
+    width: 50%;
+    left: 50%;
+
+    justify-content: center;
+
+    display: flex;
+    align-items: center;
+}
+
+.login-input-container {
+    position: relative;
+    margin-bottom: 30px;
+    width: 80%;
+    min-width: 200px;
+    left: 10%;
+    height: 50px;
+}
+
+#login-form {
+    width: calc(100% - 60px);
+    left: 30px;
+}
+
+#login-form h1 {
+    font-size: 60px;
+    line-height: 1;
+    font-weight: bolder !important;
+    position: relative;
+    margin-bottom: 30px !important;
+}
+
+.login-input {
+    text-indent: 30px;
+}
+
+.input-icon {
+    position: absolute !important;
+    left: 14px !important;
+    top: 6px !important;
+}
+
+.input-less-space {
+    margin-bottom: 10px;
+}
+
+#login-form input:focus {
+    outline: none;
+    box-shadow: none;
+    border: 1px solid rgb(46, 95, 187);
+}
+
+#login-form input::placeholder {
+    color: grey;
+}
+
+
+#login-form label {
+    position: relative;
+    font-size: 17px;
+
+    margin-bottom: 10px;
+    padding: 0;
+
+    color: grey;
+}
+
+.login-btn {
+    width: 70%;
+    margin-top: 40px;
+    margin-bottom: 15px;
+    background-color: #325a9f !important;
+
+    border: transparent !important;
+
+    transition: 0.5s;
+}
+
+.login-btn:hover {
+    background-color: #1a3c77 !important;
+    box-shadow: 0 0 30px rgba(17, 54, 99, 0.3);
+}
+
+
+label > a {
+    color: rgb(46, 95, 187);
+    text-decoration: none;
+}
+
+
+@media (max-width: 600px) {
+
+    #background {
+        display: none;
+    }
+
+    #image {
+        display: none;
+    }
+
+    #login-icon {
+        width: 80px;
+        height: 80px;
+        position: absolute;
+        left: calc(50% - 40px);
+    }
+
+    .login-right-container {
+        position: relative;
+        top: 50px;
+        width: 100%;
+        left: 0;
+    }
+}

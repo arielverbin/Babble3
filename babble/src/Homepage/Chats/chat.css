@@ -1,0 +1,94 @@
+#chat {
+    position: absolute;
+    height: calc(100% - 20px);
+    min-height: 300px;
+    width: calc(100% - 60px - 30% - 10px);
+    /* 60px: width of navbar, 30%: width of contacts list, 10px: some space */
+    min-width: calc(100% - 60px - 400px - 10px);
+    /* 400px: max width of contact list*/
+    max-width: calc(100% - 60px - 250px - 10px);
+    /* 250px: min width of contact list*/
+    padding: 15px 0 15px 0;
+
+    right: 12px;
+    top: 10px;
+    border-radius: 10px;
+
+    background-color: white;
+    box-shadow: 10px 10px 50px #3c50891a,
+    -10px -10px 50px #484b9f1d;
+}
+
+@media (max-width: 600px) {
+    #chat {
+        max-width: none;
+        min-width: 250px;
+        width: calc(100% - 20px);
+        top: 10px;
+        bottom: 10px;
+        left: 10px;
+        right: 10px;
+    }
+
+    nav {
+        display: none;
+    }
+
+    #contacts {
+        display: none;
+    }
+}
+
+/* ------- Chat Header ------ */
+.chat-header {
+    position: absolute;
+    width: calc(100% - 30px);
+    height: 70px;
+    left: 15px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    border-radius: 12px 12px 0 0;
+    background-color: rgba(235, 235, 235, 0.6);
+
+    z-index: 1;
+
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+#empty-chat-label {
+    color: rgba(128, 128, 128, 0.722);
+    font-size: 18px;
+
+    position: absolute;
+    top: calc(50% - 10px);
+    left: calc(50% - 125px);
+}
+
+.contact-header-name {
+    position: relative;
+    margin: 10px 5px 10px 5px;
+    left: 70px;
+
+    max-width: calc(100% - 130px);
+
+    font-weight: bold;
+    font-size: 20px;
+
+    border-radius: 12px;
+}
+
+.contact-header-pic {
+    position: absolute;
+
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+
+    left: 15px;
+}
+
+/* ------- Chat Footer ------ */

@@ -1,0 +1,39 @@
+#contacts {
+    position: absolute;
+    height: 100%;
+    min-height: 300px;
+    width: 30%;
+    left: 60px;
+    min-width: 250px;
+    max-width: 400px;
+}
+
+#chats-title {
+    padding: 12px 12px 0 20px;
+    position: relative;
+
+    color: rgba(0, 0, 0, 0.9);
+
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+#add-contact {
+    position: absolute;
+    background-image: url(../../buttons/person-add.svg);
+    background-color: aliceblue;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    height: 25px;
+    width: 25px;
+    right: 40px;
+    top: 40px;
+}
+
+/* -- Add contact button & modal --*/
+#add-contact:hover {
+    background-image: url(../../buttons/person-fill-add.svg);
+}

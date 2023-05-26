@@ -1,0 +1,98 @@
+nav {
+    position: absolute;
+    margin: 12px;
+    height: calc(100% - 20px);
+    min-height: 300px;
+    width: 50px;
+
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 10px 10px 50px #3c50891a,
+    -10px -10px 50px #484b9f1d;
+}
+
+#settings {
+    position: absolute;
+    bottom: 40px;
+    border: 0;
+    width: 30px;
+    height: 50px;;
+    left: calc(50% - 15px);
+    /* Half way and width/2 back*/
+
+    background-image: url(../buttons/settings.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#settings:hover {
+    background-image: url(../buttons/settings-hover.svg);
+    background-color: rgba(255, 255, 255, 0);
+}
+
+.profile-pic {
+    z-index: 5;
+    position: absolute;
+
+    width: 34px;
+    height: 34px;
+
+    bottom: 10px;
+    left: calc(50% - 17px);
+
+    border-radius: 50%;
+}
+
+.display-name {
+    z-index: 4;
+    opacity: 0;
+    left: 0;
+
+    position: absolute;
+    height: 34px;
+    width: auto;
+    white-space: nowrap;
+    padding: 4px 15px 0 15px;
+    bottom: 10px;
+    border-radius: 0 17px 17px 0;
+    background-color: white;
+    transition: 0.3s;
+}
+
+
+.profile-pic:hover + .display-name {
+    z-index: 4;
+    opacity: 1;
+    transform: translateX(45px);
+}
+
+#logo {
+    position: absolute;
+    opacity: 0.3;
+
+    width: 30px;
+    height: auto;
+
+    top: 10px;
+    left: calc(50% - 15px);
+}
+
+#home-btn {
+    position: absolute;
+    bottom: 90px;
+    border: 0;
+    width: 30px;
+    height: 30px;;
+    left: calc(50% - 15px);
+    /* Half way and width/2 back*/
+
+    background-color: transparent;
+    background-image: url(../buttons/home-btn.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+#home-btn:hover {
+    background-image: url(../buttons/home-btn-hover.png);
+
+}

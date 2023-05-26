@@ -1,0 +1,114 @@
+.seperator {
+    position: relative;
+    padding: 0;
+    width: calc(100% - 60px);
+    left: 30px;
+    height: 1px;
+    border-top: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.contact {
+    /* A single contact on the list */
+    position: relative;
+    display: block;
+    height: 65px;
+    width: 100%;
+    border-radius: 15px;
+    cursor: default;
+    transition: 0.3s;
+}
+
+.contact:hover {
+    background-color: rgba(255, 255, 255, 0.653);
+}
+
+.chosen-contact {
+    background-color: white;
+    z-index: 1;
+    box-shadow: 10px 10px 50px #3c508910,
+    -10px -10px 50px #484b9f1c;
+}
+
+
+.contact-pic {
+    width: 50px;
+    height: 50px;
+
+    position: relative;
+    left: 8px;
+    top: calc(50% - 25px);
+    /* Half down, then height/2 pixels up*/
+
+    border-radius: 50%;
+}
+
+.unreads {
+    /* Unread messages notification */
+    position: absolute;
+    display: inline-block;
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+    left: 42px;
+    top: 4px;
+
+    border: 4px solid aliceblue;
+    background-color: rgb(8, 115, 208);
+    color: white;
+    font-size: 10px;
+    text-align: center;
+    line-height: 17px;
+    font-weight: bold;
+    z-index: 2;
+}
+
+.contact-name {
+    position: absolute;
+    top: calc(50% - 17px);
+    left: 70px;
+
+    max-width: calc(100% - 180px);
+
+    font-size: 15px;
+    color: rgba(0, 0, 0, 0.9);
+}
+
+.last-message {
+    position: absolute;
+    top: calc(50% + 2px);
+    left: 70px;
+
+    max-width: calc(100% - 95px);
+
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.time-chatted {
+    position: absolute;
+    top: calc(50% - 14px);
+    right: 30px;
+
+    font-size: 10px;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+#delete-chat {
+    outline: none;
+    border: none;
+    position: absolute;
+    background-image: url(../../buttons/delete.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+
+    background-color: transparent;
+
+    width: 30px;
+    height: 30px;
+    top: 17px;
+    right: 20px;
+}
+
+#delete-chat:hover {
+    background-image: url(../../buttons/delete-hover.svg);
+}

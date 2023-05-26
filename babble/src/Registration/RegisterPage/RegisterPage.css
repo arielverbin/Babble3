@@ -1,0 +1,147 @@
+.error-message {
+    text-align: center;
+    position: relative;
+    color: red;
+    font-size: 0.9rem;
+}
+
+
+#reg-icon {
+    z-index: 1;
+    position: fixed;
+    top: 30px;
+    left: 30px;
+
+    width: 50px;
+    height: 50px;
+    background-image: url(../../favicon.ico);
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    opacity: 0.2;
+}
+
+.reg-right-container {
+    position: absolute;
+    background-color: white;
+    height: 100%;
+    min-height: 900px;
+    width: 50%;
+    left: 50%;
+
+    justify-content: center;
+
+    display: flex;
+    align-items: center;
+}
+
+.reg-input-container {
+    position: relative;
+    margin-bottom: 30px;
+    width: 80%;
+    left: 10%;
+    height: 50px;
+}
+
+.reg-form {
+    width: calc(100% - 60px);
+    left: 30px;
+}
+
+.reg-form h1 {
+    font-size: 60px;
+    line-height: 1;
+    font-weight: bolder !important;
+    position: relative;
+    margin-bottom: 30px !important;
+}
+
+.reg-input:not([type="file"]) {
+    border: 1px solid grey;
+    text-indent: 30px;
+}
+
+.input-icon {
+    position: relative;
+
+}
+
+.input-less-space {
+    margin-bottom: 10px;
+}
+
+.reg-form input:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.reg-form input::placeholder {
+    color: grey;
+}
+
+.reg-form label {
+    position: relative;
+    font-size: 17px;
+
+    margin-bottom: 10px;
+    padding: 0;
+
+    color: grey;
+}
+
+.register-btn {
+    width: 70%;
+    margin-top: 40px;
+    margin-bottom: 15px;
+    background-color: #325a9f !important;
+
+    border: transparent !important;
+
+    transition: 0.5s;
+}
+
+.register-btn:hover {
+    background-color: #1a3c77 !important;
+    box-shadow: 0 0 30px rgba(17, 54, 99, 0.3);
+}
+
+form > label {
+    color: grey;
+}
+
+label > a {
+    color: rgb(46, 95, 187);
+    text-decoration: none;
+}
+
+#pic-preview {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+@media (max-width: 600px) {
+
+    #background {
+        display: none;
+    }
+
+    #image {
+        display: none;
+    }
+
+    #reg-icon {
+        width: 80px;
+        height: 80px;
+        position: relative;
+        left: calc(50% - 40px);
+    }
+
+    .reg-right-container {
+        position: relative;
+        width: 100%;
+        top: -50px;
+        left: 0;
+    }
+}
