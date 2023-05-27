@@ -2,6 +2,7 @@ import LeftSide from '../LeftSide/LeftSide';
 import './LoginPage.css'
 import {Link, useNavigate} from 'react-router-dom'
 import {useRef} from 'react';
+import {loginUser} from "../../DataAccess/users";
 
 
 function LoginPage() {
@@ -11,27 +12,21 @@ function LoginPage() {
     const username = useRef(null);
     const password = useRef(null);
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
+        event.preventDefault();
         // Array of users.
-        const storedData = localStorage.getItem('users');
-        const usersArray = storedData ? JSON.parse(storedData) : [];
-
-        const foundUser = usersArray.find(user => user.username === username.current.value &&
-            user.password === password.current.value);
-
-        if (!foundUser) {
-            event.preventDefault();
-            alert("Username or password does not match.");
+        const result = await loginUser(username.current.value, password.current.value);
+        if (result === 'An error occurred, please try again.' ||
+            result === 'Username or password does not match.') {
+            alert(result);
             return;
         }
-
-        localStorage.setItem('username', foundUser.username);
-        localStorage.setItem('displayName', foundUser.displayName);
-        localStorage.setItem('profilePic', foundUser.selectedImage);
-        localStorage.setItem('password', foundUser.password);
+        localStorage.setItem('username', result.username);
+        localStorage.setItem('displayName', result.displayName);
+        localStorage.setItem('profilePic', result.profilePic);
+        localStorage.setItem('password', result.password);
 
         // Success! Logging in...
-        localStorage.setItem('loggedIn', 'true');
         navigate('/babble');
     }
 
@@ -72,10 +67,8 @@ function LoginPage() {
                 </form>
             </div>
 
-
             {/* Left side of the page */}
             <LeftSide/>
-
 
         </div>
 

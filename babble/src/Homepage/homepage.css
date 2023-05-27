@@ -2,16 +2,19 @@
     position: absolute;
     height: 100%;
     width: 100%;
+    min-width: 800px;
 
     background-color: white;
 }
 #welcome {
     position: relative;
-    font-family: "Arial Narrow", serif;
+    font-family: Helvetica, sans-serif;
     z-index: 2;
-    font-size: calc(5vw + 15px);
+    font-size: max(calc(5vw + 15px), 50px);
     color: #2c2c2c;
     font-weight: bold;
+
+    mso-highlight: white;
 }
 .homepage-logo {
     width: 80px;
@@ -23,7 +26,7 @@
 }
 #start-chatting {
     z-index: 1;
-    border-radius: 0;
+    border-radius: 18px;
     background-color: #637ead !important;
     border: transparent !important;
     letter-spacing: 0.1em;
@@ -37,14 +40,14 @@
 }
 
 #description {
-    font-family: sans-serif;
     font-weight: lighter;
-    font-size: calc(1vw + 10px);
+    font-size: max(calc(1vw + 10px),18px);
 }
 #welcome-container {
     position: absolute;
     height: 100%;
     width: 50%;
+    min-width: 400px;
     left: 0;
 
     padding: 0 0 0 90px;

@@ -6,14 +6,15 @@ import NavBar from './NavBar/NavBar';
 
 import {contacts, setContacts, chats, updateChat} from '../userData'
 import {useNavigate} from "react-router-dom";
+import {userJWT} from "../DataAccess/users";
 
 function Babble() {
 
     const navigate = useNavigate();
 
-    // Block entrance without logging in.
+    // Block entrance without logging in - return to landing page.
     useEffect(() => {
-        if (localStorage.getItem('loggedIn') !== 'true') {
+        if (!userJWT) {
             navigate('/');
         }
     });
@@ -21,7 +22,9 @@ function Babble() {
     // current connected username.
     const ourUsername = localStorage.getItem('username');
 
+    // current open chat.
     const [focusedContact, setFocusedContact] = useState("");
+
     // create new contact list (if username is new)
     if(!contacts[ourUsername]) {
         contacts[ourUsername] = {};

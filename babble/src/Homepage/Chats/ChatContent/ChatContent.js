@@ -4,12 +4,14 @@ import Message from '../Message/Message';
 
 function ChatContent({chat}) {
 
+    // convert json of chat to HTML.
     const messagesFlow = chat.map((message, key) => {
         return <Message {...message} key={key}/>
     });
 
     const chatContent = useRef(null);
 
+    // auto scroll to bottom.
     useEffect(() => {
         // Set scroll position to the bottom on initial render
         chatContent.current.scrollTop = chatContent.current.scrollHeight;

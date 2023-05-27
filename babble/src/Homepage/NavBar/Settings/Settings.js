@@ -109,7 +109,7 @@ function Settings({navDisplayName, setNavDisplayName, navProfilePic, setNavProfi
                             <input
                                 type="text"
                                 placeholder={navDisplayName}
-                                maxLength={30}
+                                maxLength={15}
                                 id="display-name-change"
                             />
                         </div>

@@ -26,6 +26,7 @@ function NavBar() {
                     id="settings"
                     data-bs-toggle="modal"
                     data-bs-target="#settingsModal"
+                    disabled // Server does not support.
                 />
                 <img src={navProfilePic} className="profile-pic" alt="pp"/>
                 <label className="display-name">{navDisplayName}</label>

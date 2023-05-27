@@ -83,6 +83,7 @@ function SendMessage({setCurChat, curContact}) {
                 <form id="send-form">
                     <label id="attach-file" htmlFor="file-upload"/>
                     <input
+                        disabled // Server does not support.
                         type="file"
                         id="file-upload"
                         onChange={handleFileInputChange}/>

@@ -1,18 +1,20 @@
 import {useNavigate} from "react-router-dom";
 import './homepage.css';
 import {useEffect, useState} from "react";
+import {logOut, setUserJWT, userJWT} from "../DataAccess/users";
 
 function Homepage() {
 
     const navigate = useNavigate();
 
-    const [loggedIn, setLoggedIn] = useState(localStorage.getItem('loggedIn'));
+    const [jwt, setJwt] = useState(userJWT);
 
     useEffect(() => {
-        localStorage.setItem('loggedIn', loggedIn);
-    }, [loggedIn])
+        setUserJWT(jwt);
+    }, [jwt])
+
     const handleNavigate = function () {
-        if (loggedIn === 'true') {
+        if (jwt) {
             navigate('/babble');
         } else {
             navigate('/login');
@@ -24,7 +26,8 @@ function Homepage() {
     }
 
     const handleLogOut = function () {
-        setLoggedIn('false');
+        setJwt(null);
+        logOut();
     }
     const handleSignUp = function () {
         navigate('/register');
@@ -36,8 +39,8 @@ function Homepage() {
         <div id="welcome-container">
             <div className="homepage-logo"></div>
             <div>
-                {!loggedIn || loggedIn === 'false' ? (<h1 id="welcome">WELCOME TO BABBLE</h1>) : (
-                    <h1 id="welcome">WELCOME BACK, {localStorage.getItem('displayName').toUpperCase()}</h1>)}
+                {!jwt ? (<h1 id="welcome">Welcome to Babble</h1>) : (
+                    <h1 id="welcome">Welcome back, {localStorage.getItem('displayName')}</h1>)}
             </div>
             <p id="description">Exchange ideas, express your thoughts, and forge new relationships.Start babbling
                 now!</p>
@@ -49,7 +52,7 @@ function Homepage() {
                     START CHATTING
                 </button>
                 <br/>
-                {loggedIn === 'true' ? (
+                {jwt ? (
                     <button
                         id="log-out-button"
                         onClick={handleLogOut}>
