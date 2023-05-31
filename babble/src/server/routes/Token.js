@@ -1,4 +1,4 @@
-// routes/tokenRoutes.js
+// routes/Token.js
 const express = require('express');
 const TokenController = require('../controllers/Token');
 const AuthService = require('../services/AuthService');
@@ -7,9 +7,10 @@ const router = express.Router();
 const authService = new AuthService('your_secret_key');
 const tokenController = new TokenController(authService);
 
-router.post('/', tokenController.createToken.bind(tokenController));
+router.post('/', tokenController.login.bind(tokenController));
 
 module.exports = router;
+
 
 /*
 server.post(‘/api/Tokens’, (req, res) =>{

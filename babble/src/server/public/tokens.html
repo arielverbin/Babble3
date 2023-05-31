@@ -4,26 +4,33 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Token HTML</title>
 </head>
 <body>
-    <input ><button onclick="create()">Add</button>
+    <input id="usernameInput" placeholder="Username"><br>
+    <input id="passwordInput" placeholder="Password"><br>
+    <button onclick="createToken()">Add Token</button>
+
     <script>
-        async function create() {
-            const res = await fetch('http://localhost:12345/Users', {
-                method: "POST", 
+        async function createToken() {
+            const username = document.getElementById("usernameInput").value;
+            const password = document.getElementById("passwordInput").value;
+
+            const data = {
+                username: username,
+                password: password
+            };
+
+            const response = await fetch('http://localhost:12345/api/Token', {
+                method: 'POST',
                 headers: {
-                    "Content-Type": "application/json",
+                    'Content-Type': 'application/json',
+                    'Authorization': 'YOUR_AUTH_TOKEN' // Replace with your actual authorization token
                 },
-                body: JSON.stringify({
-                "username": 'username4',
-                "password": 'password1',
-                "displayName": 'displayName1',
-                "profilePic": 'profilePic1' 
-                })
-            }).then(res => {
-                console.log('Returned status: ' + res.status);
-              })
+                body: JSON.stringify(data)
+            });
+
+            console.log('Returned status: ' + response.status);
         }
     </script>
 </body>
