@@ -10,6 +10,7 @@ const tokenController = new TokenController(authService);
 router.post('/', tokenController.createToken.bind(tokenController));
 
 module.exports = router;
+
 /*
 server.post(‘/api/Tokens’, (req, res) =>{
     //logic of login where arguments are

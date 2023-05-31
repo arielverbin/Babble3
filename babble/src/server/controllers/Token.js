@@ -1,5 +1,5 @@
 // controllers/TokenController.js
-const User = require('../models/user');
+const User = require('../models/Token');
 const AuthService = require('../services/AuthService');
 
 class TokenController {
@@ -12,7 +12,10 @@ class TokenController {
     const { username, password } = req.body;
 
     // Create a new user instance
-    const user = new User(username, password);
+    const user = new User({
+      username: username,
+      password: password
+    });
 
     // Generate the JWT token using the auth service
     const token = this.authService.generateToken(user);

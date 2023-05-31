@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input ><button onclick="create()">Add</button>
+    <script>
+        async function create() {
+            const res = await fetch('http://localhost:12345/Users', {
+                method: "POST", 
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                "username": 'username4',
+                "password": 'password1',
+                "displayName": 'displayName1',
+                "profilePic": 'profilePic1' 
+                })
+            }).then(res => {
+                console.log('Returned status: ' + res.status);
+              })
+        }
+    </script>
+</body>
+</html>

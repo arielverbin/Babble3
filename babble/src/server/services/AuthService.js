@@ -7,7 +7,7 @@ class AuthService {
   }
 
   generateToken(user) {
-    const token = jwt.sign({ username: user.username },{password: user.password} ,this.secretKey);
+    const token = jwt.sign({ username: user.username, password: user.password }, this.secretKey);
     return token;
   }
 }
