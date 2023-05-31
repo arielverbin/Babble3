@@ -2,7 +2,7 @@ import LeftSide from '../LeftSide/LeftSide';
 import './RegisterPage.css';
 import {Link, useNavigate} from 'react-router-dom';
 import {useRef, useState} from 'react';
-import {registerUser} from "../../DataAccess/users";
+import {loginUser, registerUser} from "../../DataAccess/users";
 
 function RegisterPage() {
 
@@ -13,7 +13,6 @@ function RegisterPage() {
     const displayName = useRef(null);
     const password = useRef(null);
     const confirmPassword = useRef(null);
-
     const [selectedPic, setSelectedPic] = useState(null);
 
     const handleChangePicture = function (event) {
@@ -24,9 +23,8 @@ function RegisterPage() {
                 setSelectedPic(e.target.result);
             }
             reader.readAsDataURL(selectedFile);
-        } else {
-            setSelectedPic(null);
         }
+
     }
 
     // Validation errors.
@@ -102,7 +100,6 @@ function RegisterPage() {
 
                 // Store user's data.
                 localStorage.setItem('username', username.current.value);
-                localStorage.setItem('password', password.current.value);
                 localStorage.setItem('displayName', displayName.current.value);
                 localStorage.setItem('profilePic', selectedPic);
 
@@ -111,7 +108,14 @@ function RegisterPage() {
                     displayName.current.value, selectedPic);
 
                 if (result === 'success') {
-                    // Success! Logging in...
+                    // Success! auto logging in...
+                    const autoLogin = await loginUser(username.current.value, password.current.value)
+                    if (autoLogin === 'An error occurred, please try again.' ||
+                        autoLogin === 'Username or password does not match.') {
+                        alert('Successfully registered, but an error occurred after log in.' +
+                            'You can manually log into your account by navigating to the login page.');
+                        return;
+                    }
                     navigate('/babble');
                     return;
 
@@ -122,6 +126,9 @@ function RegisterPage() {
                 }
                 alert(result);
             }
+        }
+        else {
+            alert('All fields are required.');
         }
     }
 
@@ -214,13 +221,21 @@ function RegisterPage() {
 
                     {/* display the chosen photo */}
                     {selectedPic && (
-                        <div>
-                            <img
-                                id='pic-preview'
-                                src={selectedPic}
-                                alt="Selected"
-                            />
-                        </div>
+                        <>
+                            <div>
+                                <img
+                                    id='pic-preview'
+                                    src={selectedPic}
+                                    alt="Selected"
+                                />
+                                <button id='remove-pic' onClick={()=> {
+                                    setSelectedPic(null);
+                                    const file = document.getElementById('select-pic');
+                                    file.value = file.defaultValue;
+                                }}
+                                    />
+                            </div>
+                        </>
                     )}
 
                     <div>

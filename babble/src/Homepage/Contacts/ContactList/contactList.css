@@ -9,14 +9,15 @@
 
 #search-contact {
     position: relative;
-    width: calc(100% - 35px);
-    left: 10px;
+    width: calc(100% - 20px);
+    left: 6px;
     bottom: 10px;
 
-    padding: 0 15px;
+    padding: 0 15px 0 10px;
 
     color: rgb(71, 71, 71);
 
+    font-family: Arial, FontAwesome, serif;
     outline: none;
     border: none;
     background-color: rgba(0, 0, 0, 0.03);

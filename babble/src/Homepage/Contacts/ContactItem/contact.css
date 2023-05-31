@@ -67,10 +67,18 @@
     top: calc(50% - 17px);
     left: 70px;
 
-    max-width: calc(100% - 180px);
+    max-width: calc(100% - 190px);
 
     font-size: 15px;
     color: rgba(0, 0, 0, 0.9);
+}
+
+.chosen-contact .contact-name {
+    max-width: calc(100% - 120px);
+}
+
+.contact-username {
+    color: #a6a6a6;
 }
 
 .last-message {
@@ -84,6 +92,9 @@
     color: rgba(0, 0, 0, 0.6);
 }
 
+.chosen-contact .last-message {
+    max-width: calc(100% - 120px);
+}
 .time-chatted {
     position: absolute;
     top: calc(50% - 14px);

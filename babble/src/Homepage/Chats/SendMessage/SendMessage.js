@@ -1,7 +1,8 @@
 import {useRef, useState} from 'react';
 import './sendMessage.css'
+import {sendMessage} from "../../../DataAccess/chats";
 
-function SendMessage({setCurChat, curContact}) {
+function SendMessage({setCurChat, curContact, contacts, setContacts}) {
 
     const [selectedFile, setSelectedFile] = useState(null);
 
@@ -47,7 +48,7 @@ function SendMessage({setCurChat, curContact}) {
         return `${day}/${month}/${year} ${hours}:${minutes}`;
     }
 
-    const handleSend = function () {
+    const handleSend = async function () {
         // create a new message.
         const newMessage = {
             content: inputBox.current.value,
@@ -56,9 +57,17 @@ function SendMessage({setCurChat, curContact}) {
             extendedTime: getCurrentDateTime(),
             attachedFile: selectedFile ? selectedFile : null
         };
+        const res = await sendMessage(curContact.id, inputBox.current.value);
+        if (res === 'An error occurred, please try again.') {
+            alert(res);
+            return;
+        }
+
         setCurChat((curChat) => [...curChat, newMessage]); //append message to chat array.
         curContact.lastMes = inputBox.current.value; //update lastMes.
         curContact.timeChatted = getCurrentDateTime(); //update timeChatted.
+        setContacts({...contacts}); //trigger a re-render of contact list.
+
         inputBox.current.value = ""; // empty input box.
         setSelectedFile(null); //empty selected file.
         setDisabled(true);
@@ -107,7 +116,10 @@ function SendMessage({setCurChat, curContact}) {
                         onKeyDown={checkSend}
                         autoComplete='off'
                     />
-                    <button type="reset" id="send-message" onClick={handleSend} disabled={disabled}/>
+                    <button type="reset" id="send-message" onClick={(event) => {
+                        event.preventDefault();
+                        handleSend()
+                    }} disabled={disabled}/>
                 </form>
             </div>
         </div>

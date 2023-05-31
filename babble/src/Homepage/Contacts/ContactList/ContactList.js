@@ -8,9 +8,9 @@ function ContactList({displayedContacts, setDisplayedContacts, focusedContact, s
     // create HTML of contact list.
     const contactList = Object.entries(displayedContacts).map(([key, contact]) => {
         if (key === focusedContact) { // create contact item for focused contact.
-            return <ContactItem name={contact.name} lastMes={'Now Chatting'} unreads={0} pic={contact.pic} key={key}
+            return <ContactItem name={contact.name} lastMes={contact.lastMes} unreads={0} pic={contact.pic} key={key}
                                 username={key} focus={true} setFocusedContact={setFocusedContact}
-                                focusedContact={focusedContact} setDisplayedContacts={setDisplayedContacts}
+                                focusedContact={focusedContact} id={contact.id} setDisplayedContacts={setDisplayedContacts}
                                 displayedContacts={displayedContacts}/>;
         }
         return <ContactItem {...contact} key={key} username={key} focus={false} setFocusedContact={setFocusedContact}/>;
@@ -51,7 +51,7 @@ function ContactList({displayedContacts, setDisplayedContacts, focusedContact, s
                     <AddContact displayedContacts={displayedContacts} setDisplayedContacts={setDisplayedContacts}/>
                     <input
                         type="text"
-                        placeholder="Search..."
+                        placeholder="&#xf002; Search..."
                         id="search-contact"
                         ref={searchBox}
                         spellCheck="false"

@@ -24,7 +24,6 @@ function LoginPage() {
         localStorage.setItem('username', result.username);
         localStorage.setItem('displayName', result.displayName);
         localStorage.setItem('profilePic', result.profilePic);
-        localStorage.setItem('password', result.password);
 
         // Success! Logging in...
         navigate('/babble');

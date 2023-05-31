@@ -73,36 +73,6 @@ export var chats = {
     }
 };
 
-export var contacts = {
-    "guest": {
-        "katniss": {
-            name: "Katniss Everdeen",
-            lastMes: 'And if we burn, you burn with us!',
-            pic: "contacts/katniss.jpg",
-            timeChatted: "31/2/2621 13:27", unreads: 6, focus: true
-        },
-        "ross": {
-            name: "Ross Geller",
-            lastMes: 'Thanks 😁🥰',
-            pic: "contacts/ross.jpg",
-            timeChatted: "31/2/2621 13:27", unreads: 1, focus: false
-        },
-        "eleven": {
-            name: "Eleven", lastMes: "This conversation is new.", pic: "contacts/eleven.jpg",
-            timeChatted: "31/7/2021 12:02", unreads: 0, focus: false
-        },
-        "walter": {
-            name: "Walter White", lastMes: "This conversation is new.", pic: "contacts/walter.jpg",
-            timeChatted: "18/1/1999 12:32", unreads: 0, focus: false
-        },
-    }
-};
-
-export const setContacts = function (newContacts, ourUsername) {
-    contacts[ourUsername] = newContacts;
-}
-
-
 export function createChat(username, ourUsername) {
     if(!chats[ourUsername]) {
         chats[ourUsername] = {};
