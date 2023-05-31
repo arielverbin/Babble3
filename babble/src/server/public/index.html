@@ -8,22 +8,26 @@
 </head>
 <body>
     <input ><button onclick="create()">Add</button>
+    <div id="result"></div> <!-- Add a div to display the result -->
+
     <script>
         async function create() {
-            const res = await fetch('http://localhost:12345/Users', {
-                method: "POST", 
+            const res = await fetch('http://localhost:12345/api/Users/username4', {
+                //method: "POST", 
                 headers: {
                     "Content-Type": "application/json",
+                    //"authorization" : 'Bearer ' + userJWT,
                 },
-                body: JSON.stringify({
+              /*  body: JSON.stringify({
                 "username": 'username4',
                 "password": 'password1',
                 "displayName": 'displayName1',
                 "profilePic": 'profilePic1' 
-                })
-            }).then(res => {
-                console.log('Returned status: ' + res.status);
-              })
+                })*/
+            })
+            console.log('Returned status: ' + res.status);
+            const data = await res.json();
+            document.getElementById("result").innerHTML = JSON.stringify(data);
         }
     </script>
 </body>

@@ -20,5 +20,5 @@ const User = new Schema({
     }
 });
 
-module.exports = mongoose.model('User1111' , User);
+module.exports = mongoose.model('User' , User);
 
