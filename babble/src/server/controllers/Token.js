@@ -1,3 +1,5 @@
+// controllers/Token.js
+
 const User = require('../models/Token');
 const AuthService = require('../services/AuthService');
 
@@ -6,18 +8,21 @@ class TokenController {
     this.authService = authService;
   }
 
-  login(req, res) {
-    // Retrieve the user login data from the request body
-    const { username, password } = req.body;
+  async login(req, res) {
+    const authService = new AuthService();
 
-    // Implement logic to check login credentials
-    // If incorrect, return 404
-    // If correct, generate the JWT token using the auth service
-    const user = new User({ username, password });
-    const token = this.authService.generateToken(user);
+    // Check login credentials
+    // Implement your own logic here
+    const isValidCredentials = true; // Replace with your logic to check login credentials
 
-    // Return the token as the response
-    res.json({ token });
+    if (!authService.getUserByUsername(req.body.username)) {
+      return res.status(404).json({ message: 'Invalid username and/or password' });
+    }
+
+    // Generate the JWT token
+    const token = authService.generateToken(req.body.username);
+
+    res.status(200).json({ token });
   }
 }
 

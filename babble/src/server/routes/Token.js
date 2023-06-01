@@ -4,10 +4,10 @@ const TokenController = require('../controllers/Token');
 const AuthService = require('../services/AuthService');
 
 const router = express.Router();
-const authService = new AuthService('your_secret_key');
-const tokenController = new TokenController(authService);
+const authService = new AuthService();
+const tokenController = new TokenController();
 
-router.post('/', tokenController.login.bind(tokenController));
+router.post('/', tokenController.login);
 
 module.exports = router;
 
