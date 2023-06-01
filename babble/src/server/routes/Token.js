@@ -5,11 +5,12 @@ const AuthService = require('../services/AuthService');
 
 const router = express.Router();
 const authService = new AuthService();
-const tokenController = new TokenController();
+const tokenController = new TokenController(authService);
 
 router.post('/', tokenController.login);
 
 module.exports = router;
+
 
 
 /*

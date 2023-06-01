@@ -15,7 +15,6 @@ class AuthService {
 }
 */
 
-
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 
@@ -35,3 +34,4 @@ class AuthService {
 }
 
 module.exports = AuthService;
+

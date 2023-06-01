@@ -12,15 +12,15 @@ class TokenController {
     const authService = new AuthService();
 
     // Check login credentials
-    // Implement your own logic here
-    const isValidCredentials = true; // Replace with your logic to check login credentials
+    const { username, password } = req.body;
+    const user = await authService.getUserByUsername(username);
 
-    if (!authService.getUserByUsername(req.body.username)) {
+    if (!user || user.password !== password) {
       return res.status(404).json({ message: 'Invalid username and/or password' });
     }
 
     // Generate the JWT token
-    const token = authService.generateToken(req.body.username);
+    const token = authService.generateToken(username);
 
     res.status(200).json({ token });
   }
