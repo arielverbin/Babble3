@@ -8,5 +8,5 @@ router.route('/')
     .post(userController.createUser);
 
 router.route('/:id')
-    .get(userController.getUser , userController.afterTokenGetUser);
+    .get(userController.isLoggedIn , userController.getUser);
 module.exports = router;

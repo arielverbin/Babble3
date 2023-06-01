@@ -30,6 +30,9 @@ app.use('/api/Users', users);
 const chats = require('./routes/chat');
 app.use('/api/Users', chats);
 
+const messages = require('./routes/message');
+app.use('/api/:id/Messages', messages);
+
 app.listen(process.env.PORT);
 
 

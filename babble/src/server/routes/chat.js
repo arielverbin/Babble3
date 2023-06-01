@@ -1,7 +1,6 @@
 const chatController = require('../controllers/chat');
 
 const express = require('express');
-const user = require('../models/chat');
 var router = express.Router();
 
 router.route('/')

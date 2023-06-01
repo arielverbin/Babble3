@@ -14,7 +14,7 @@ const createUser = async (req, res) => {
 
 // Define a function that responds with a json response.
 // Only logged in users should be able to execute this function
-const afterTokenGetUser = async (req, res) => {
+const getUser = async (req, res) => {
     console.log(req.params.id)
     const user = await userService.getUser(req.params.id);
     
@@ -22,7 +22,7 @@ const afterTokenGetUser = async (req, res) => {
     
 }
 
-const getUser = async (req, res, next) => {
+const isLoggedIn = async (req, res, next) => {
      if (req.headers.authorization) {
         // Extract the token from that header
         const token = req.headers.authorization.split(" ")[1];
@@ -41,4 +41,4 @@ const getUser = async (req, res, next) => {
         return res.status(403).send('Token required');
 };
 
-module.exports = { createUser, getUser , afterTokenGetUser};
+module.exports = { createUser, isLoggedIn, getUser};

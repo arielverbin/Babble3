@@ -33,4 +33,16 @@ const deleteChat = async (id) => {
     return result
 }
 
-module.exports = { createChat, searchChatsByUser , deleteChat}
+const findChatById = async (id) => {
+    const chat = await Chat.findOne({id: id})
+    return chat
+}
+
+const addMsgToChat = async (chat, msg) => {
+    await Chat.findOneAndUpdate(
+        { id: chatId }, // Filter for the chat based on the chat ID
+        { $push: { messages: msg } }, // Add the message to the 'messages' array
+      );  
+}
+
+module.exports = { createChat, searchChatsByUser , deleteChat, findChatById , addMsgToChat}

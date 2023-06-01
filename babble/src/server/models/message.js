@@ -10,13 +10,13 @@ const Massage = new Schema({
     created: {
         type: String,
         default: Date.now
-      },
-      sender: {
+    },
+    sender: {
         type: User,
         default: null
-      },
-      content: String
-    });
+    },
+    content: String
+});
 
-module.exports = mongoose.model('Massage' , Massage);
+module.exports = mongoose.model('Massage', Massage);
 
