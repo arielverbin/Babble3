@@ -27,6 +27,9 @@ app.use(express.static('public'))
 const users = require('./routes/user');
 app.use('/api/Users', users);
 
+const chats = require('./routes/chat');
+app.use('/api/Users', chats);
+
 app.listen(process.env.PORT);
 
 
