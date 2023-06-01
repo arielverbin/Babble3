@@ -20,6 +20,8 @@ app.use(express.static('public'))
 
 const users = require('./routes/user');
 app.use('/Users', users);
+const token = require('./routes/Token');
+app.use('/Token', token);
 
 app.listen(process.env.PORT);
 
