@@ -10,5 +10,4 @@ const createMessage = async (user , content) => {
     await message.save();
 };
 
-
 module.exports = { createMessage }

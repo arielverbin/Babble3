@@ -22,6 +22,14 @@ const sendMessage = async (req, res) => {
     return res.status(200)
 
 }
+
+const getMessages = async (req, res) => {
+    //get chat by id
+    const chat = await chatService.findChatById(req.params.id)
+    //get the chat's messages
+    messages = chat.messages
+    return res.status(200).json(messages);
+}
 const isLoggedIn = (req, res, next) => {
     // If the request has an authorization header
     if (req.headers.authorization) {
@@ -43,4 +51,4 @@ const isLoggedIn = (req, res, next) => {
         return res.status(403).send('Token required');
 };
 
-module.exports = { createUser, isLoggedIn, sendMessage};
+module.exports = { createUser, isLoggedIn, sendMessage , getMessages};
