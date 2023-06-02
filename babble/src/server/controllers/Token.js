@@ -1,10 +1,12 @@
 // controllers/Token.js
 const User = require('../models/Token');
 const AuthService = require('../services/AuthService');
+
 class TokenController {
   constructor(authService) {
     this.authService = authService;
   }
+
   async login(req, res) {
     const authService = new AuthService();
 
@@ -23,3 +25,4 @@ class TokenController {
   }
 }
 module.exports = TokenController;
+
