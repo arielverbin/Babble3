@@ -48,7 +48,7 @@ function ChatContent({chat}) {
                     <label>No Previous Messages.
                         <hr></hr>
                     </label>
-                    <p className="date-area"><label>{chat[0].daySent}</label></p>
+                    <label className="date-area"><div>{chat[0].daySent}</div></label>
                 </div>
             )}
             {messagesFlow}

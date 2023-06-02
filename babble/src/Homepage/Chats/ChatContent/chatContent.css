@@ -20,8 +20,8 @@
     margin: 10px 0;
 }
 
-.date-area label {
+.date-area div {
     color: grey;
     position: relative;
-    font-size: 0.7em;
+    font-size: 12px;
 }
