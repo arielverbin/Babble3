@@ -1,6 +1,8 @@
 const messageService = require('../services/message');
 const userService = require('../services/user')
 const chatService = require('../services/chat')
+const key = "Some super secret key shhhhhhhhhhhhhhhhh!!!!!";
+const jwt = require('jsonwebtoken'); // Import the 'jsonwebtoken' library
 
 const createUser = async (req, res) => {
 

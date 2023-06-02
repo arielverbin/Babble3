@@ -1,11 +1,12 @@
 const Chat = require('../models/chat');
-
+let idGlobal = 0
 const createChat = async (user1, user2) => {
 
     const chat = new Chat({
         users: [user1, user2]
     });
-    chat.id = generateUniqueInt32();
+    chat.id = idGlobal;
+    idGlobal++;
     await chat.save();
     return chat.id;
 };

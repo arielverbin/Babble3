@@ -2,9 +2,10 @@ const mongoose = require('mongoose');
 const User = require('./user');
 
 const Schema = mongoose.Schema;
-const Massage = new Schema({
+
+const MessageSchema = new Schema({
     id: {
-        type: mongoose.Schema.Types.Int32,
+        type: Number,
         required: true
     },
     created: {
@@ -12,11 +13,11 @@ const Massage = new Schema({
         default: Date.now
     },
     sender: {
-        type: User,
+        type: Schema.Types.ObjectId,
+        ref: 'User',
         default: null
     },
     content: String
 });
 
-module.exports = mongoose.model('Massage', Massage);
-
+module.exports = mongoose.model('Message', MessageSchema);

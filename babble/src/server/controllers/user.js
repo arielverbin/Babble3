@@ -1,4 +1,7 @@
 const userService = require('../services/user');
+const jwt = require('jsonwebtoken'); // Import the 'jsonwebtoken' library
+
+const key = "Some super secret key shhhhhhhhhhhhhhhhh!!!!!";
 
 const createUser = async (req, res) => {
     const x = await userService.getUser(req.body.username);
@@ -15,15 +18,13 @@ const createUser = async (req, res) => {
 // Define a function that responds with a json response.
 // Only logged in users should be able to execute this function
 const getUser = async (req, res) => {
-    console.log(req.params.id)
     const user = await userService.getUser(req.params.id);
-    
-    res.status(200).json({username: user.username , displayName: user.displayName , profilePic: user.profilePic});
-    
+    res.status(200).json({ username: user.username, displayName: user.displayName, profilePic: user.profilePic });
+
 }
 
 const isLoggedIn = async (req, res, next) => {
-     if (req.headers.authorization) {
+    if (req.headers.authorization) {
         // Extract the token from that header
         const token = req.headers.authorization.split(" ")[1];
         try {
@@ -41,4 +42,4 @@ const isLoggedIn = async (req, res, next) => {
         return res.status(403).send('Token required');
 };
 
-module.exports = { createUser, isLoggedIn, getUser};
+module.exports = { createUser, isLoggedIn, getUser };

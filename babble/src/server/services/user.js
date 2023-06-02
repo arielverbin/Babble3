@@ -15,7 +15,6 @@ const getUser = async (username) => {
     
     const existingUser = await User.findOne({username: username});
     
-    console.log(username)
     return existingUser
 }
 

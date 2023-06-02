@@ -28,10 +28,13 @@ const users = require('./routes/user');
 app.use('/api/Users', users);
 
 const chats = require('./routes/chat');
-app.use('/api/Users', chats);
+app.use('/api/Chats', chats);
 
 const messages = require('./routes/message');
 app.use('/api/:id/Messages', messages);
+
+const token = require('./routes/Token');
+app.use('/api/Tokens', token);
 
 app.listen(process.env.PORT);
 

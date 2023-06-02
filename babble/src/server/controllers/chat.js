@@ -1,11 +1,13 @@
 const chatService = require('../services/chat');
 const userService = require('../services/user')
+const jwt = require('jsonwebtoken'); // Import the 'jsonwebtoken' library
 
 
+const key = "Some super secret key shhhhhhhhhhhhhhhhh!!!!!";
 
 const getChatsByUser = async (req, res) => {
     const { username } = req.user; // Access the username from req.user object set by isLoggedIn middleware
-    const chats = await chatService.getChatsByUser(username);
+    const chats = await chatService.searchChatsByUser(username);
 
     return res.status(200).json(chats);
 };
@@ -20,7 +22,7 @@ const addChat = async (req, res) => {
     if (myUser.username === user2.username) {
         return res.status(400).send('Thou shalt not talk with thy self');
     }
-    const id = await chatService.addChat(myUser, user2);
+    const id = await chatService.createChat(myUser, user2);
     return res.status(200).json({ id: id, user: { username: user2, displayName: user2.displayName, profilePic: user2.profilePic } })
 };
 
@@ -43,7 +45,6 @@ const isLoggedIn = (req, res, next) => {
             // Verify the token is valid
             const data = jwt.verify(token, key);
             req.user = data; // Store the data in req.user object
-
             console.log('The logged in user is: ' + data.username);
             // Token validation was successful. Continue to the actual function (index)
             return next()
