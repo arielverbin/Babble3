@@ -1,6 +1,5 @@
 // services/AuthService.js
 
-/*
 const jwt = require('jsonwebtoken');
 
 class AuthService {

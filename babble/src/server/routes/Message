@@ -1,0 +1,9 @@
+const messageController = require('../controllers/message');
+
+const express = require('express');
+var router = express.Router();
+
+router.route('/')
+    .post(messageController.isLoggedIn, messageController.sendMessage)
+    .get(messageController.isLoggedIn, messageController.getMessages)
+module.exports = router;

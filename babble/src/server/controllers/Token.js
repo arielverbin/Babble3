@@ -1,5 +1,4 @@
 // controllers/Token.js
-
 const User = require('../models/Token');
 const AuthService = require('../services/AuthService');
 
@@ -25,5 +24,5 @@ class TokenController {
     res.status(200).json({ token });
   }
 }
-
 module.exports = TokenController;
+
