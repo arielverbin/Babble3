@@ -5,6 +5,7 @@
 
     background-color: white;
 }
+
 #welcome {
     position: relative;
     font-family: Helvetica, sans-serif;
@@ -13,6 +14,7 @@
     color: #2c2c2c;
     font-weight: bold;
 }
+
 .homepage-logo {
     width: 80px;
     height: 80px;
@@ -21,6 +23,7 @@
     background-size: cover;
     background-repeat: no-repeat;
 }
+
 #start-chatting {
     z-index: 1;
     height: 36px;
@@ -43,19 +46,23 @@
     font-weight: lighter;
     font-size: calc(1vw + 10px);
 }
+
 #welcome-container {
     position: absolute;
     height: 100%;
     width: 50%;
+    min-width: 500px;
     left: 0;
 
-    padding: 0 0 0 90px;
+    padding: 60px 0 0 60px;
+    background-color: white;
 
     display: flex;
     flex-direction: column;
     justify-content: center;
     overflow: visible;
 }
+
 .homepage-pic {
     position: absolute;
     right: 0;

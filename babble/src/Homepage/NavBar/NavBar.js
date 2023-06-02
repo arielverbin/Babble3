@@ -19,21 +19,17 @@ function NavBar() {
     return (
         <>
             <nav>
-                <img src="../../favicon.ico" id="logo" alt="logo"/>
+                <img src="../../favicon.ico" id="logo" alt="logo" onClick={handleHomepage}/>
                 <button
                     type="button"
                     className="btn btn-outline-light"
                     id="settings"
                     data-bs-toggle="modal"
                     data-bs-target="#settingsModal"
-                    disabled // Server does not support.
                 />
                 <img src={navProfilePic} className="profile-pic" alt="pp"/>
                 <label className="display-name">{navDisplayName}</label>
 
-                <button id="home-btn"
-                        onClick={handleHomepage}
-                ></button>
             </nav>
 
             <Settings navProfilePic={navProfilePic} setNavProfilePic={setNavProfilePic}

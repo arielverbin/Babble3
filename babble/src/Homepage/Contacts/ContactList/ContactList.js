@@ -5,6 +5,7 @@ import './contactList.css';
 
 function ContactList({displayedContacts, setDisplayedContacts, focusedContact, setFocusedContact}) {
 
+
     // create HTML of contact list.
     const contactList = Object.entries(displayedContacts).map(([key, contact]) => {
         if (key === focusedContact) { // create contact item for focused contact.
@@ -16,15 +17,23 @@ function ContactList({displayedContacts, setDisplayedContacts, focusedContact, s
         return <ContactItem {...contact} key={key} username={key} focus={false} setFocusedContact={setFocusedContact}/>;
     });
 
+    // using useRef hook to hold a stable reference to the contactList variable.
+    // (So contactListRef will not change its reference between renders, resulting in
+    // infinite loop of the useEffect)
+    const contactListRef = useRef(contactList);
+    useEffect(() => { contactListRef.current = contactList; });
+
+    // Matching contacts according to search.
     const [matchingContactList, setMatchingContactList] = useState(contactList);
 
     // Refresh contact list according to search box.
     useEffect(() => {
         setMatchingContactList(
-            contactList.filter(contact => {
+            contactListRef.current.filter(contact => {
                 const contactName = contact.props.name.toLowerCase();
+                const contactUsername = contact.props.username;
                 const search = searchBox.current.value.toLowerCase().trim();
-                return contactName.includes(search);
+                return contactName.includes(search) || contactUsername.includes(search);
             })
         );
     }, [focusedContact, displayedContacts]);
@@ -36,8 +45,9 @@ function ContactList({displayedContacts, setDisplayedContacts, focusedContact, s
         setMatchingContactList(
             contactList.filter(contact => {
                 const contactName = contact.props.name.toLowerCase();
+                const contactUsername = contact.props.username;
                 const search = searchBox.current.value.toLowerCase().trim();
-                return contactName.includes(search);
+                return contactName.includes(search) || contactUsername.includes(search);
             })
         );
     }
@@ -49,9 +59,10 @@ function ContactList({displayedContacts, setDisplayedContacts, focusedContact, s
                 <div id="chats-title">
                     <label className="fw-bold">Chats</label>
                     <AddContact displayedContacts={displayedContacts} setDisplayedContacts={setDisplayedContacts}/>
+                    <div id="search-icon"/>
                     <input
                         type="text"
-                        placeholder="&#xf002; Search..."
+                        placeholder="Search"
                         id="search-contact"
                         ref={searchBox}
                         spellCheck="false"

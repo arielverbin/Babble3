@@ -68,13 +68,21 @@ nav {
 
 #logo {
     position: absolute;
-    opacity: 0.3;
+    opacity: 0.7;
 
     width: 30px;
     height: auto;
 
     top: 10px;
     left: calc(50% - 15px);
+
+    transition: 0.2s;
+}
+
+#logo:hover {
+    scale: 1.2;
+    cursor: pointer;
+    opacity: 1;
 }
 
 #home-btn {

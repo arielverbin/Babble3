@@ -16,7 +16,7 @@ function LoginPage() {
         event.preventDefault();
         // Array of users.
         const result = await loginUser(username.current.value, password.current.value);
-        if (result === 'An error occurred, please try again.' ||
+        if (result === 'error' ||
             result === 'Username or password does not match.') {
             alert(result);
             return;

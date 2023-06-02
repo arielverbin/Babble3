@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import './settings.css'
 import {useNavigate} from "react-router-dom";
+import {logOut, setUserDetails} from "../../../DataAccess/users";
 
 function Settings({navDisplayName, setNavDisplayName, navProfilePic, setNavProfilePic}) {
 
@@ -18,36 +19,33 @@ function Settings({navDisplayName, setNavDisplayName, navProfilePic, setNavProfi
         reader.readAsDataURL(selectedFile);
     }
 
-    const handleSaveChanges = (event) => {
+    const handleSaveChanges = async (event) => {
         event.preventDefault();
-        let newName;
         const curUsername = localStorage.getItem('username');
-        const curPassword = localStorage.getItem('password');
 
-        const storedData = localStorage.getItem('users');
-        const usersArray = storedData ? JSON.parse(storedData) : [];
+        const newName = document.getElementById('display-name-change').value;
 
         // Picture changed?
         if (newProfilePic) {
+            if(await setUserDetails(curUsername, newProfilePic, null) === 'error'){
+                alert("Error in saving your settings. Perhaps our server does not currently support this action.");
+                return;
+            }
             // set global variable.
             setNavProfilePic(newProfilePic);
             localStorage.setItem('profilePic', newProfilePic)
 
-            // Update users array.
-            usersArray.find(user => user.username === curUsername &&
-                user.password === curPassword)['selectedImage'] = newProfilePic;
         }
         // Display name changed?
-        if ((newName = document.getElementById('display-name-change').value) !== "") {
+        if (newName !== "") {
+            if(await setUserDetails(curUsername, null, newName) === 'error'){
+                alert("Error in saving your settings. Perhaps our server does not currently support this action.");
+                return;
+            }
             // set global variable.
             setNavDisplayName(newName);
             localStorage.setItem('displayName', newName);
-
-            // update users array
-            usersArray.find(user => user.username === curUsername &&
-                user.password === curPassword)['displayName'] = newName;
         }
-        localStorage.setItem('users', JSON.stringify(usersArray));
 
         // Reset fields.
         document.getElementById('display-name-change').value = '';
@@ -61,7 +59,7 @@ function Settings({navDisplayName, setNavDisplayName, navProfilePic, setNavProfi
     }
 
     const handleLogOut = function () {
-        localStorage.setItem('loggedIn', 'false');
+        logOut();
         navigate('/');
     }
 
@@ -105,12 +103,14 @@ function Settings({navDisplayName, setNavDisplayName, navProfilePic, setNavProfi
                                 className="form-control"
                                 id="profile-pic-change"
                                 onChange={handleProfilePicChange}
+
                             />
                             <input
                                 type="text"
                                 placeholder={navDisplayName}
                                 maxLength={15}
                                 id="display-name-change"
+
                             />
                         </div>
                         <div className="modal-footer">

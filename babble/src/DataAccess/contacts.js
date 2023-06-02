@@ -12,8 +12,6 @@ function convertTimeFormat(timeString) {
 }
 
 export async function getContacts() {
-    console.log("hello!");
-    console.log('In contacts jwt: ' + localStorage.getItem('JWT'));
 
     const res = await fetch('http://localhost:5000/api/Chats', {
         'method': 'get',
@@ -22,7 +20,6 @@ export async function getContacts() {
             "authorization": 'Bearer ' + localStorage.getItem('JWT'),
         },
     });
-    console.log('Returned status1: ' + res.status);
 
     if (res.status === 200) {
         let rawContacts = await res.json();
@@ -90,8 +87,7 @@ export async function deleteContact(contactID) {
             "authorization": 'Bearer ' + localStorage.getItem('JWT').toString(),
         }
     });
-    if(res.status === 200) {
-        return 'success';
-    }
-    return "Ooopss! We've run into a problem :(\nPlease try again later";
+
+    return res.status === 200 ? 'success' :
+        "Ooopss! We've run into a problem :(\nPlease try again later";
 }

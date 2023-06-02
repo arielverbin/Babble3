@@ -27,7 +27,6 @@ export async function registerUser(username, password, displayName, profilePic) 
         },
         'body': JSON.stringify(userData)
     });
-    console.log('Returned status: ' + res.status);
 
     if (res.status === 200) {
         return 'success';
@@ -43,17 +42,30 @@ export async function registerUser(username, password, displayName, profilePic) 
  */
 async function getUserDetails(username) {
     const res = await fetch('http://localhost:5000/api/Users/' + username, {
+        'method' : 'get',
         'headers' : {
             'Content-Type': 'application/json',
             "authorization" : 'Bearer ' + localStorage.getItem('JWT'),
         }
     });
-    console.log('Return status: ' + res.status);
     if(res.status === 200) {
         return await res.json();
     }
     else return "Ooopss! We've run into a problem :(\nPlease try again later";
 
+}
+
+export async function setUserDetails(username, newPic, newDisplayName) {
+    const res = await fetch('http://localhost:5000/api/Users/' + username, {
+        'method' : 'post',
+        'headers' : {
+            'Content-Type': 'application/json',
+            "authorization" : 'Bearer ' + localStorage.getItem('JWT'),
+        },
+        'body': JSON.stringify({"newPic" : newPic, "newDisplayName" : newDisplayName}),
+    });
+
+    return res.status === 200 ? 'success' : 'error';
 }
 
 /**
@@ -76,11 +88,9 @@ export async function loginUser(username, password) {
     if(res.status === 200) {
         const userJWT = await res.text(); //save the user's token.
         localStorage.setItem('JWT', userJWT);
-        console.log('Logged in, JWT=' + localStorage.getItem('JWT'));
         return await getUserDetails(username);
 
-    } else if(res.status === 404) {
-        return 'Username or password does not match.';
     }
-    return "Ooopss! We've run into a problem :(\nPlease try again later";
+    return res.status === 404 ? 'Username or password does not match.' :
+        "Ooopss! We've run into a problem :(\nPlease try again later";
 }

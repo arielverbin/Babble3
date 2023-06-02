@@ -14,7 +14,8 @@ function Babble() {
 
     // Block entrance without logging in - return to landing page.
     useEffect(() => {
-        if (!localStorage.getItem('JWT')) {
+        if (localStorage.getItem('JWT') === 'undefined' ||
+            localStorage.getItem('JWT') === 'null') {
             navigate('/');
         }
     });
@@ -22,43 +23,42 @@ function Babble() {
     // current open chat, current focused contact, current displayed contacts.
     const [focusedContact, setFocusedContact] = useState("");
     const [displayedContacts, setDisplayedContacts] = useState({});
-    const [curChat, setCurChat] = useState(undefined);
+    const [curChat, setCurChat] = useState({});
 
-    // Init contact list with the contact list from the server.
+    // Init current contact list.
     useEffect(() => {
         const initContacts = async () => {
             const contacts = await getContacts();
             if(contacts === 'An error occurred, please try again.') {
-                await alert("We encountered a problem fetching your data...");
+                console.log("We encountered a problem fetching your data...");
                 logOut();
-                window.location.reload();
                 navigate('/');
                 return;
             }
             setDisplayedContacts(contacts);
         };
         initContacts();
-    }, []);
+    }, [navigate]);
 
     // Init current chat messages.
     useEffect(() => {
         const initChat = async () => {
             const messages = await getMessages(displayedContacts[focusedContact].id);
-            if(messages === 'An error occurred, please try again.') {
-                alert("We encountered a problem fetching your data...");
+            if(messages === 'Error downloading previous messages.') {
+                console.log("We encountered a problem fetching your data...");
                 logOut();
-                window.location.reload();
                 navigate('/');
                 return;
             }
             setCurChat(messages);
         };
+
         if(displayedContacts[focusedContact]) {
             initChat();
         } else {
             setCurChat(undefined);
         }
-    }, [focusedContact]);
+    }, [focusedContact, displayedContacts, navigate]);
 
     return (
         <div id="homepage">

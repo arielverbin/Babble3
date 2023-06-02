@@ -71,6 +71,8 @@ function SendMessage({setCurChat, curContact, contacts, setContacts}) {
         inputBox.current.value = ""; // empty input box.
         setSelectedFile(null); //empty selected file.
         setDisabled(true);
+
+        inputBox.current.focus();
     };
 
     // disable/enable send button.

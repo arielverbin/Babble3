@@ -8,10 +8,20 @@ function getTime(timeString) {
 function getDay(timeString) {
     const dateObj = new Date(timeString);
     const day = dateObj.getDate().toString().padStart(2, '0');
-    const month = (dateObj.getMonth() + 1).toString().padStart(2, '0');
+    const monthIndex = dateObj.getMonth();
     const year = dateObj.getFullYear().toString();
-    return `${day}/${month}/${year}`;
+
+    // Array of month names
+    const monthNames = [
+        'JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN',
+        'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'
+    ];
+
+    const month = monthNames[monthIndex];
+
+    return `${month} ${day}, ${year}`;
 }
+
 
 export async function getMessages(contactID) {
     const res = await fetch('http://localhost:5000/api/Chats/' +
@@ -52,6 +62,5 @@ export async function sendMessage(contactID, content) {
         'body': JSON.stringify({"msg": content})
     });
 
-    if (res.status === 200) return 'Success';
-    return 'An error occurred, please try again.';
+    return res.status === 200 ? 'success' : 'An error occurred, please try again.';
 }

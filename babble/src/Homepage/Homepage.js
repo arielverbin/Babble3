@@ -14,7 +14,8 @@ function Homepage() {
     }, [jwt])
 
     const handleNavigate = function () {
-        if (jwt !== 'undefined' && jwt !== 'null') {
+        if (jwt && jwt !== 'undefined' && jwt !== 'null') {
+            console.log("jwt = " + jwt);
             navigate('/babble');
         } else {
             navigate('/login');
@@ -39,7 +40,7 @@ function Homepage() {
         <div id="welcome-container">
             <div className="homepage-logo"></div>
             <div>
-                {(jwt === 'undefined' || jwt ==='null') ? (<h1 id="welcome">Welcome to Babble</h1>) : (
+                {(!jwt || jwt === 'undefined' || jwt ==='null') ? (<h1 id="welcome">Welcome to Babble</h1>) : (
                     <h1 id="welcome">Welcome back, {localStorage.getItem('displayName')}</h1>)}
             </div>
             <p id="description">Exchange ideas, express your thoughts, and forge new relationships. Start babbling
@@ -52,7 +53,7 @@ function Homepage() {
                     START CHATTING
                 </button>
                 <br/>
-                {(jwt !== 'undefined' && jwt !== 'null') ? (
+                {(jwt && jwt !== 'undefined' && jwt !== 'null') ? (
                     <button
                         id="log-out-button"
                         onClick={handleLogOut}>
