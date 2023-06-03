@@ -1,16 +1,11 @@
 const mongoose = require('mongoose');
-const User = require('./user');
 
 const Schema = mongoose.Schema;
 
 const MessageSchema = new Schema({
-    id: {
-        type: Number,
-        required: true
-    },
     created: {
         type: String,
-        default: Date.now
+        default: () => new Date().toISOString()
     },
     sender: {
         type: Schema.Types.ObjectId,

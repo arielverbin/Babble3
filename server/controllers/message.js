@@ -1,38 +1,42 @@
 const messageService = require('../services/message');
 const userService = require('../services/user')
 const chatService = require('../services/chat')
-const key = "Some super secret key shhhhhhhhhhhhhhhhh!!!!!";
 const jwt = require('jsonwebtoken'); // Import the 'jsonwebtoken' library
 
-const createUser = async (req, res) => {
+const key = "Some super secret key shhhhhhhhhhhhhhhhh!!!!!";
 
-};
-
-// Define a function that responds with a json response.
-// Only logged in users should be able to execute this function
 
 const sendMessage = async (req, res) => {
-    //get chat by id
-    const chat = await chatService.findChatById(req.params.id)
-    //get user by id
-    const user = await userService.getUser(req.username)
+    // Get our username ID.
+    const userID = (await userService.getUser(req.username))._id;
+    // Get the current chat ID.
+    const chatID = req.params.id;
+
     //create message
-    const message = await messageService.createMessage(user, req.body.msg)
+    const message = await messageService.createMessage(userID, req.body.msg);
+    if (!message) {
+        return res.status(500).send("Error creating a new message.");
+    }
     //add message to chat
-    await chatService.addMsgToChat(chat.id, message)
+    if (!(await chatService.addMsgToChat(chatID, message._id))) {
+        return res.status(500).send("Error adding message to chat.");
+    }
 
-    return res.status(200)
-
+    return res.status(200).json(message);
 }
 
 const getMessages = async (req, res) => {
-    //get chat by id
-    const chat = await chatService.findChatById(req.params.id)
+    const chat = await chatService.findChatById(req.params.id);
+    if (!chat) {
+        return res.status(404).send("Chat not found");
+    }
+
     //get the chat's messages
-    messages = chat.messages
+    const messages = chat.messages;
     return res.status(200).json(messages);
 }
-const isLoggedIn = (req, res, next) => {
+
+const isLoggedIn = async (req, res, next) => {
     // If the request has an authorization header
     if (req.headers.authorization) {
         // Extract the token from that header
@@ -40,17 +44,15 @@ const isLoggedIn = (req, res, next) => {
         try {
             // Verify the token is valid
             const data = jwt.verify(token, key);
-            req.username = data; // Store the data in req.user object
+            req.username = data.username; // Store the data in req.user object
 
-            console.log('The logged in user is: ' + data.username);
             // Token validation was successful. Continue to the actual function (index)
             return next()
         } catch (err) {
             return res.status(401).send("Invalid Token");
         }
-    }
-    else
+    } else
         return res.status(403).send('Token required');
 };
 
-module.exports = { createUser, isLoggedIn, sendMessage , getMessages};
+module.exports = {isLoggedIn, sendMessage, getMessages};
