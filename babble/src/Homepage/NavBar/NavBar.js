@@ -18,7 +18,7 @@ function NavBar() {
 
     return (
         <>
-            <nav>
+            <nav id="babble-nav">
                 <img src="../../favicon.ico" id="logo" alt="logo" onClick={handleHomepage}/>
                 <button
                     type="button"

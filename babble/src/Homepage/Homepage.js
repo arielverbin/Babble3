@@ -2,6 +2,7 @@ import {useNavigate} from "react-router-dom";
 import './homepage.css';
 import {useEffect, useState} from "react";
 import {logOut, setUserJWT} from "../DataAccess/users";
+import homePic from '../homepage-pic.png'
 
 function Homepage() {
 
@@ -35,10 +36,35 @@ function Homepage() {
     }
 
     return (<div id="homepage-container">
-        <div className="homepage-pic">
-        </div>
-        <div id="welcome-container">
+        <nav className="homepage-nav">
             <div className="homepage-logo"></div>
+
+            {(jwt && jwt !== 'undefined' && jwt !== 'null') ? (
+                <button
+                    id="log-out-button"
+                    onClick={handleLogOut}>
+                    LOG OUT
+                </button>
+            ) : (<>
+                    <button
+                        id="log-out-button"
+                        onClick={handleLogIn}>
+                        LOG IN
+                    </button>
+                    <label id="log">{'\u00A0'}{'\u00A0'}|{'\u00A0'}{'\u00A0'}</label>
+                    <button
+                        id="log-out-button"
+                        onClick={handleSignUp}>
+                        SIGN UP
+                    </button>
+                </>
+            )}
+
+        </nav>
+        <img src={homePic} alt="homepic" className="homepage-pic"></img>
+
+
+        <div id="welcome-container">
             <div>
                 {(!jwt || jwt === 'undefined' || jwt ==='null') ? (<h1 id="welcome">Welcome to Babble</h1>) : (
                     <h1 id="welcome">Welcome back, {localStorage.getItem('displayName')}</h1>)}
@@ -52,27 +78,6 @@ function Homepage() {
                     onClick={handleNavigate}>
                     START CHATTING
                 </button>
-                <br/>
-                {(jwt && jwt !== 'undefined' && jwt !== 'null') ? (
-                    <button
-                        id="log-out-button"
-                        onClick={handleLogOut}>
-                        LOG OUT
-                    </button>
-                ) : (<>
-                        <button
-                            id="log-out-button"
-                            onClick={handleLogIn}>
-                            LOG IN
-                        </button>
-                        <label id="log">{'\u00A0'}{'\u00A0'}|{'\u00A0'}{'\u00A0'}</label>
-                        <button
-                            id="log-out-button"
-                            onClick={handleSignUp}>
-                            SIGN UP
-                        </button>
-                    </>
-                )}
             </div>
         </div>
     </div>);

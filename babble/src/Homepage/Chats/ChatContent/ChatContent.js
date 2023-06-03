@@ -35,7 +35,7 @@ function ChatContent({chat}) {
     useEffect(() => {
         // Set scroll position to the bottom on initial render
         chatContent.current.scrollTop = chatContent.current.scrollHeight;
-    }, [chat]);
+    });
 
     return (
         <div id="chat-content" ref={chatContent}>

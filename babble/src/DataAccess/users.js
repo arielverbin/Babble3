@@ -64,9 +64,11 @@ async function getUserDetails(username) {
 }
 
 export async function setUserDetails(username, newPic, newDisplayName) {
+    console.log("lmao: " + username);
     try {
+        console.log("trying....");
         const res = await fetch('http://localhost:5001/api/Users/' + username, {
-            'method': 'post',
+            'method': 'put',
             'headers': {
                 'Content-Type': 'application/json',
                 "authorization": 'Bearer ' + localStorage.getItem('JWT'),

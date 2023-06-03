@@ -41,6 +41,7 @@ export async function getContacts() {
                     focus: false
                 }
             }
+            console.log("contacts: " + contacts[0]);
             return contacts;
         }
         return 'An error occurred, please try again.';

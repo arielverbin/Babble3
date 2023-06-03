@@ -1,6 +1,5 @@
 import {useRef} from "react";
 import './addContact.css'
-import {createChat} from '../../../userData.js'
 import {addContact} from "../../../DataAccess/contacts";
 
 function AddContact({setDisplayedContacts, displayedContacts}) {
@@ -14,8 +13,6 @@ function AddContact({setDisplayedContacts, displayedContacts}) {
             alert('The username "' + username + '" already exists in your contacts.');
             return;
         }
-
-        createChat(username, localStorage.getItem('username')); //create a new chat with the inputted contact.
 
         const rawContact = await addContact(username);
         if(typeof rawContact === 'string') {

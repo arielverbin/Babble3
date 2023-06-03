@@ -31,8 +31,8 @@ function Babble() {
             const contacts = await getContacts();
             if(contacts === 'An error occurred, please try again.') {
                 console.log("We encountered a problem fetching your data...");
-                logOut();
-                navigate('/');
+                //logOut();
+                //navigate('/');
                 return;
             }
             setDisplayedContacts(contacts);

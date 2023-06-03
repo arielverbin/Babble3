@@ -24,6 +24,7 @@ function getDay(timeString) {
 
 
 export async function getMessages(contactID) {
+    console.log("id: " + contactID)
     try {
         const res = await fetch('http://localhost:5001/api/Chats/' +
             contactID.toString() + '/Messages', {

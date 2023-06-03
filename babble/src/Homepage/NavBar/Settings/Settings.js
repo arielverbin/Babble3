@@ -27,7 +27,7 @@ function Settings({navDisplayName, setNavDisplayName, navProfilePic, setNavProfi
 
         // Picture changed?
         if (newProfilePic) {
-            if(await setUserDetails(curUsername, newProfilePic, null) === 'error'){
+            if((await setUserDetails(curUsername, newProfilePic, null)) === 'error'){
                 alert("Error in saving your settings. Perhaps our server does not currently support this action.");
                 return;
             }
@@ -38,7 +38,7 @@ function Settings({navDisplayName, setNavDisplayName, navProfilePic, setNavProfi
         }
         // Display name changed?
         if (newName !== "") {
-            if(await setUserDetails(curUsername, null, newName) === 'error'){
+            if((await setUserDetails(curUsername, null, newName)) === 'error'){
                 alert("Error in saving your settings. Perhaps our server does not currently support this action.");
                 return;
             }
