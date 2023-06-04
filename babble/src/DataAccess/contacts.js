@@ -98,7 +98,6 @@ export async function deleteContact(contactID) {
                 "authorization": 'Bearer ' + localStorage.getItem('JWT').toString(),
             }
         });
-
         return res.status === 200 ? 'success' :
             "Ooopss! We've run into a problem :(\nPlease try again later";
     } catch (error) {
