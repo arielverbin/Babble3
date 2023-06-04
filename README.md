@@ -1,70 +1,88 @@
 # Babble <img src="./babble/src/favicon.ico" alt="Logo" width="30" height="auto"> - Assignment 3
 
-This is a chatting website built using React, web sockets, as part of the second assignment in Advanced Programming 2 course.
-We created a server based on a given API, now our website is dynamically.
+Babble is a real-time chatting website built using React, web sockets, and a custom API implementation as part of the second assignment in the Advanced Programming 2 course.
 
-#### About the name 'Babble' :)
-Babble means 'talk rapidly and continuously in a foolish, excited, or incomprehensible way'. It also sounds like bubble, which is the reason behind our choice of logo.
+## About the Name 'Babble'
 
-Please note that the website does not have a backend server or database yet, so it does not actually send messages to anyone. It only contains the user interface and functionality (yet).
+The name "Babble" reflects the concept of talking rapidly and continuously in a foolish, excited, or incomprehensible way. It also resonates with the playful nature of bubbles, which inspired the choice of logo for the website.
 
-###### - i havent gone through that
-## Our API
-As a part of this assignment we have been asked to implement a given API with several functionalities:
+## API Functionality
+
+The Babble website incorporates the following API endpoints and functionalities:
 
 * **User**:
-
-``` GET         /api/Users/{username} ```   -    gives the user details by giving the username          
-
-``` POST        /api/Users            ``` -    creates new user
+  - `GET /api/Users/{username}`: Retrieve user details by providing the username.
+  - `POST /api/Users`: Create a new user.
 
 * **Token**:
-
-``` POST        /api/Tokens           ``` -     creates a JWT to a user that registered to the app
+  - `POST /api/Tokens`: Generate a JSON Web Token (JWT) for registered users.
 
 * **Chats**:
-
-``` GET         /api/Chats           ``` -     get the chats' list of the user
-
-``` POST        /api/Chats           ``` -     create a new chat
-
-``` GET         /api/Chats{id}       ``` -     get a specific chat with our user
-
-``` DELETE      /api/Chats{id}       ``` -     delete a chat with a specific user 
+  - `GET /api/Chats`: Retrieve the list of chats for the user.
+  - `POST /api/Chats`: Create a new chat.
+  - `GET /api/Chats{id}`: Retrieve a specific chat associated with the user.
+  - `DELETE /api/Chats{id}`: Delete a chat with a specific user.
 
 * **Messages**:
+  - `GET /api/Chats{id}/Messages`: Retrieve the list of messages in a specific chat.
+  - `POST /api/Chats{id}/Messages`: Send a message in a specific chat.
 
-``` GET       /api/Chats{id}/Messages ``` -     get the messages list with a specific user
-
-``` POST      /api/Chats{id}/Messages ``` -     send a message in a specific chat
+Please refer to the API documentation for detailed information on each endpoint.
 
 ## Notes
 
-* Since we used *localStorage* to save the user's password and username, after the first log-in/register, the browser will save this data so even after refresh or reopening the browser, the user will automatically be logged in. Of course, log out can be possible using the *Log out* button.
+* The Babble website currently does not have a backend server or database implementation. As a result, the messages sent through the application are not actually delivered to anyone. The focus of this assignment is on developing the user interface and functionality.
 
+* User credentials (username and password) are stored in the browser's local storage. After the initial login or registration, the browser will save this data, allowing automatic login even after refreshing or reopening the browser. To log out, use the provided "Log out" button.
 
 ## Getting Started
 
-- NOTE:
-* if you are on a Mac, package - json of server script should be: 
-``"start": "export NODE_ENV=local && node app.js","test": "export NODE_ENV=test && node app.js"``
-* otherwise:
-``"start": "SET NODE_ENV=local && node app.js","test": "SET NODE_ENV=test && node app.js"``
+To run the Babble website locally, follow these steps:
 
-To run the chatting website locally, follow these steps:
+1. Clone the repository:
+   ```
+   git clone https://github.com/arielverbin/Babble3.git
+   ```
 
-1. Clone the repository: ``git clone https://github.com/arielverbin/Babble3.git``
+2. Navigate to the project directory:
+   ```
+   cd Babble3
+   ```
 
-2. Navigate to the project directory: ``cd /path/to/repository``
+3. Set up the server:
+   - Go to the server directory:
+     ```
+     cd server
+     ```
+   - Install the required dependencies:
+     ```
+     npm install
+     ```
+   - Start the server:
+     ```
+     npm start
+     ```
 
-server:
-   1. ``cd server``
-   2. ``npm i express cors body-parser mongoose custom-env socket.io``
-   3. ``npm test``
-client:
-   1.  ``cd babble``
-   2. Install *npm* using ``npm install``
-   3. Start the client: ``npm start``
+4. Set up the client:
+   - Go to the client directory:
+     ```
+     cd ../babble
+     ```
+   - Install the required dependencies:
+     ```
+     npm install
+     ```
+   - Start the client:
+     ```
+     npm start
+     ```
+
+5. Open your browser and visit [http://localhost:3000](http://localhost:3000) to access the Babble website.
+
+## Important Notes for Real-Time-Chatting!!!
+in order to experience the real time chatting you need to open different browser/computers/a incognito window and a regular window
 
 
-5. Open your browser and visit ``http://localhost:3000`` to view the website.
+
+We hope you'll enjoy our web & real time chatting experience :)
+Happy chatting!
