@@ -16,27 +16,27 @@ As a part of this assignment we have been asked to implement a given API with se
 
 ``` GET         /api/Users/{username} ```   -    gives the user details by giving the username          
 
-POST        /api/Users              -    creates new user
+``` POST        /api/Users            ``` -    creates new user
 
 * **Token**:
 
-POST        /api/Tokens             -     creates a JWT to a user that registered to the app
+``` POST        /api/Tokens           ``` -     creates a JWT to a user that registered to the app
 
 * **Chats**:
 
-GET         /api/Chats              -     get the chats' list of the user
+``` GET         /api/Chats           ``` -     get the chats' list of the user
 
-POST        /api/Chats              -     create a new chat
+``` POST        /api/Chats           ``` -     create a new chat
 
-GET         /api/Chats{id}          -     get a specific chat with our user
+``` GET         /api/Chats{id}       ``` -     get a specific chat with our user
 
-DELETE      /api/Chats{id}          -     delete a chat with a specific user 
+``` DELETE      /api/Chats{id}       ``` -     delete a chat with a specific user 
 
 * **Messages**:
 
-GET         /api/Chats{id}/Messages -     get the messages list with a specific user
+``` GET       /api/Chats{id}/Messages ``` -     get the messages list with a specific user
 
-POST        /api/Chats{id}/Messages -     send a message in a specific chat
+``` POST      /api/Chats{id}/Messages ``` -     send a message in a specific chat
 
 ## Notes
 
