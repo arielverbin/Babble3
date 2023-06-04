@@ -3,7 +3,7 @@
 # dependencies
 /server/node_modules
 /babble/node_modules
-
+/node_modules
 /.pnp
 .pnp.js
 

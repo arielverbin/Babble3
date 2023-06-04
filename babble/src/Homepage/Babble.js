@@ -7,6 +7,9 @@ import {useNavigate} from "react-router-dom";
 import {getContacts} from "../DataAccess/contacts";
 import {getMessages} from "../DataAccess/chats";
 import {logOut} from "../DataAccess/users";
+import io from "socket.io-client";
+let x = 0;
+const socket = io.connect("localhost:5001")
 
 function Babble() {
 
@@ -25,6 +28,8 @@ function Babble() {
     const [displayedContacts, setDisplayedContacts] = useState({});
     const [curChat, setCurChat] = useState({});
 
+    const [recievedMes, setRecievedMes] = useState("");
+
     // Init current contact list.
     useEffect(() => {
         const initContacts = async () => {
@@ -38,7 +43,7 @@ function Babble() {
             setDisplayedContacts(contacts);
         };
         initContacts();
-    }, [navigate]);
+    }, [navigate , recievedMes]);
 
     // Init current chat messages.
     useEffect(() => {
@@ -58,8 +63,15 @@ function Babble() {
         } else {
             setCurChat(undefined);
         }
-    }, [focusedContact, displayedContacts, navigate]);
-
+    }, [focusedContact, displayedContacts, navigate, recievedMes]);
+    
+    useEffect(() => {        
+        socket.on("receive_message", () => {
+            setRecievedMes(x);
+            x++;
+            console.log("gottttt")
+        });
+    }, [socket]);
     return (
         <div id="homepage">
             <NavBar/>
