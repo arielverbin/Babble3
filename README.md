@@ -14,7 +14,7 @@ As a part of this assignment we have been asked to implement a given API with se
 
 * **User**:
 
-"GET         /api/Users/{username}"   -    gives the user details by giving the username          
+``` GET         /api/Users/{username} ```   -    gives the user details by giving the username          
 
 POST        /api/Users              -    creates new user
 
