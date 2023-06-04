@@ -1,19 +1,41 @@
 import './chatContent.css';
+import React from 'react';
 import {useEffect, useRef} from 'react';
 import Message from '../Message/Message';
 
 function ChatContent({chat}) {
 
-    const messagesFlow = chat.map((message, key) => {
-        return <Message {...message} key={key}/>
-    });
+    // convert json of chat to HTML.
+    let messagesFlow;
+    if(chat && chat.length !== 0) {
+        let prevDay = chat[0].daySent;
+        messagesFlow = chat.map((message, key) => {
+            if (message.daySent !== prevDay) {
+                prevDay = message.daySent;
+                return (
+                    <React.Fragment key={key}>
+                        <label className="date-area" key={`label-${key}`}>
+                            <div>{message.daySent}</div>
+                        </label>
+                        <Message {...message} key={`message-${key}`} />
+                    </React.Fragment>
+                );
+            }
+            return <Message {...message} key={`message-${key}`} />;
+        });
+
+
+    } else {
+        messagesFlow = [];
+    }
 
     const chatContent = useRef(null);
 
+    // auto scroll to bottom.
     useEffect(() => {
         // Set scroll position to the bottom on initial render
         chatContent.current.scrollTop = chatContent.current.scrollHeight;
-    }, [chat]);
+    });
 
     return (
         <div id="chat-content" ref={chatContent}>
@@ -26,6 +48,7 @@ function ChatContent({chat}) {
                     <label>No Previous Messages.
                         <hr></hr>
                     </label>
+                    <label className="date-area"><div>{chat[0].daySent}</div></label>
                 </div>
             )}
             {messagesFlow}
