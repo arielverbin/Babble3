@@ -9,20 +9,27 @@ Babble means 'talk rapidly and continuously in a foolish, excited, or incomprehe
 Please note that the website does not have a backend server or database yet, so it does not actually send messages to anyone. It only contains the user interface and functionality (yet).
 
 ###### - i havent gone through that
-## Features
+## Our API
+As a part of this assignment we have been asked to implement a given API with several functionalities:
 
-* **Add or Remove Contacts**: Users can  add new contacts by entering their username. They can also remove contacts if needed.
-* **Send Messages**: Users can send messages to their contacts. Messages can be plain text or include a file attachment.
-* **Change Profile Picture and Display Name**: Users have the option to change their profile picture and display name according to their preferences.
-* **Search for Contacts**: Users can search for specific contacts using the search feature, making it convenient to find and connect with the desired recipient.
-* **Multiple contacts**: Multiple users are able to register to the website.
-######
-
+* **User**:
+GET         /api/Users/{username}   -    gives the user details by giving the username          
+POST        /api/Users              -    creates new user
+* **Token**:
+POST        /api/Tokens             -     creates a JWT to a user that registered to the app
+* **Chats**:
+GET         /api/Chats              -     get the chats' list of the user
+POST        /api/Chats              -     create a new chat
+GET         /api/Chats{id}          -     get a specific chat with our user
+DELETE      /api/Chats{id}          -     delete a chat with a specific user 
+* **Messages**:
+GET         /api/Chats{id}/Messages -     get the messages list with a specific user
+POST        /api/Chats{id}/Messages -     send a message in a specific chat
 
 ## Notes
 
 * Since we used *localStorage* to save the user's password and username, after the first log-in/register, the browser will save this data so even after refresh or reopening the browser, the user will automatically be logged in. Of course, log out can be possible using the *Log out* button.
-* We included contacts and chats for example - register with the username 'guest' (choose a password), to view them.
+
 
 ## Getting Started
 
