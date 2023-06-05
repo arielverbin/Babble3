@@ -145,3 +145,14 @@ label > a {
         left: 0;
     }
 }
+#remove-pic {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    background-color: transparent;
+    background-image: url(../../Homepage/buttons/deselect-file.svg);
+    outline: none;
+    border: none;
+    border-radius: 50%;
+    left: 10px;
+}

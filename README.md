@@ -1,34 +1,61 @@
-# Babble <img src="./babble/src/favicon.ico" alt="Logo" width="30" height="auto"> - Assignment 2 
+# Babble <img src="./babble/src/favicon.ico" alt="Logo" width="30" height="auto"> - Assignment 3
 
-This is a chatting website built using React, as part of the second assignment in Advanced Programming 2 course.
+Babble is a real-time chatting website built using React, web sockets, and a custom API implementation as part of the third assignment in the Advanced Programming 2 course.
 
-#### About the name 'Babble' :)
-Babble means 'talk rapidly and continuously in a foolish, excited, or incomprehensible way'. It also sounds like bubble, which is the reason behind our choice of logo.
+## About the Name 'Babble'
 
-Please note that the website does not have a backend server or database yet, so it does not actually send messages to anyone. It only contains the user interface and functionality (yet).
+The name "Babble" reflects the concept of talking rapidly and continuously in a foolish, excited, or incomprehensible way. It also resonates with the playful nature of bubbles, which inspired the choice of logo for the website.
 
-## Features
+## API Functionality
 
-* **Add or Remove Contacts**: Users can  add new contacts by entering their username. They can also remove contacts if needed.
-* **Send Messages**: Users can send messages to their contacts. Messages can be plain text or include a file attachment.
-* **Change Profile Picture and Display Name**: Users have the option to change their profile picture and display name according to their preferences.
-* **Search for Contacts**: Users can search for specific contacts using the search feature, making it convenient to find and connect with the desired recipient.
-* **Multiple contacts**: Multiple users are able to register to the website.
-## Notes
+The Babble website incorporates the following API endpoints and functionalities:
 
-* Since we used *localStorage* to save the user's password and username, after the first log-in/register, the browser will save this data so even after refresh or reopening the browser, the user will automatically be logged in. Of course, log out can be possible using the *Log out* button.
-* We included contacts and chats for example - register with the username 'guest' (choose a password), to view them.
+* **User**:
+  - `GET /api/Users/:username`: Retrieve user details by providing the username.
+  - `POST /api/Users`: Create a new user.
+  - `PUT /api/Users/:username`: Change displayName or profilePicture for a specific user.
+
+* **Token**:
+  - `POST /api/Tokens`: Generate a JSON Web Token (JWT) for registered users.
+
+* **Chats**:
+  - `GET /api/Chats`: Retrieve the list of chats for the user.
+  - `POST /api/Chats`: Create a new chat.
+  - `GET /api/Chats:/id`: Retrieve a specific chat associated with the user.
+  - `DELETE /api/Chats/:id`: Delete a chat with a specific user.
+
+* **Messages**:
+  - `GET /api/Chats/:id/Messages`: Retrieve the list of messages in a specific chat.
+  - `POST /api/Chats/:id/Messages`: Send a message in a specific chat.
+  - `GET /api/Chats/:id/Messages/FilesAttach`: Retrieve all file attachments from a specific chat.
+  - `GET /api/Chats/Messages/FilesAttach/:msgId`: Retrieve the data of the file attached to a specific message.
+
+Notice that we expanded the required API, but we ensured that the core functionalities remained intact. Users can now enjoy updating their profile picture or display name, and even sending messages with attached files.
+
+## WebSockets
+We used WebSocket technology in our application to provide real-time updates for sending messages, or creating/deleting chats. Whenever a user performs these actions, the changes will instantly appear on the other side, ensuring seamless and synchronized communication. However, for updates like changing the profile picture or display name, we made a conscious decision not to notify users immediately. These updates are not considered urgent and do not require immediate notification. Therefore, users can conveniently view the updated information after reopening the application or retrieving their contacts, which may occur periodically. This approach balances the need for timely updates with the consideration of user experience.
 
 ## Getting Started
 
-To run the chatting website locally, follow these steps:
+To run the Babble website locally, follow these steps:
 
-1. Clone the repository: ``git clone https://github.com/arielverbin/Babble2.git``
+1. Clone the repository: `git clone https://github.com/arielverbin/Babble3.git`
+   
+2. Open a new terminal window, and navigate to the repository. Then, enter the `server` folder.
+3. Make sure that you have installed all required libraries: `npm i express cors body-parser mongoose custom-env socket.io`.
+4. Run the server using `npm test`, (or `export NODE_ENV=test && node app.js` for macOS/Linux, `set NODE_ENV=test && node app.js` for Widowns).
+5. The server should be running.
 
-2. Navigate to the project directory: ``cd /path/to/repository`` and then ``cd babble``.
+6. Now, open a new terminal window and navigate the repository. Then, enter the 'babble' folder.
+7. Install the required dependencies: `npm install`
+8. Start the react project using `npm start`.
 
-3. Install *npm* using ``npm install``.
+10. Open your browser and visit [http://localhost:3000](http://localhost:3000) to access the Babble website.
 
-4. Start the development server: ``npm start``
+## Notes about Real-Time chatting.
+In this project, we have chosen to store the user's information in the localStorage of the browser. This decision was made to ensure that users do not get logged out when they refresh the page or reopen the browser. By utilizing localStorage, we provide a seamless experience where users can continue their session without interruption.
 
-5. Open your browser and visit ``http://localhost:3000`` to view the website.
+However, it is important to note that localStorage is shared across all tabs within the same browser. While this approach enables persistence, it poses a limitation for experiencing real-time chatting. To fully utilize the real-time chatting functionality, we recommend connecting to multiple users using different browsers or opening a single incognito tab alongside a single regular tab.
+
+### We hope you'll enjoy our web & real time chatting experience :)
+### Happy chatting! 😁

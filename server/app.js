@@ -1,8 +1,9 @@
 // importing express
 const express = require('express');
-
 const app = express();
 
+const http = require("http");
+const { Server } = require("socket.io");
 // use body-parser to phrase the body of requests as json/URL-encoded.
 const bodyParser = require('body-parser');
 
@@ -43,7 +44,29 @@ app.use('/api/Chats', chats);
 const token = require('./routes/Token');
 app.use('/api/Tokens', token);
 
-// server start.
-app.listen(process.env.PORT);
+const server = http.createServer(app)
+
+const io = new Server(server, {
+    cors: {
+      origin: "http://localhost:3000",
+      methods: ["GET", "POST" , "DELETE"],
+    },
+  });
+
+io.on("connection", (socket) => {
+    socket.on("send_message", () => {
+        socket.broadcast.emit("receive_message");
+    });
+});
+// // server start.
+server.listen(process.env.PORT);
+
+// io.on("connection", (socket) => {
+//     console.log(`User connected: ${socket.id}`);
+//   });
+  
+// server.listen(process.env.PORT, () => {
+// console.log(`Server started on port ${process.env.PORT}`);
+// });
 
 

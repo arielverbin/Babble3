@@ -1,8 +1,8 @@
 import './contact.css';
-import {contacts} from '../../../userData.js'
 import RemoveContact from "./RemoveContact";
 
 function ContactItem({   // contact data.
+                         id,
                          name,
                          lastMes,
                          pic,
@@ -16,7 +16,6 @@ function ContactItem({   // contact data.
                      }) {
 
     const changeContact = function (contact) {
-        contacts[localStorage.getItem('username')][contact].unreads = 0;
         setFocusedContact(contact);
     }
 
@@ -29,12 +28,12 @@ function ContactItem({   // contact data.
                 {unreads !== 0 && <label className="unreads">{unreads}</label>}
                 {focus &&
                     // delete contact button.
-                    <RemoveContact focusedContact={focusedContact}
+                    <RemoveContact focusedContact={focusedContact} id={id}
                                    setDisplayedContacts={setDisplayedContacts} setFocusedContact={setFocusedContact}/>
                 }
                 <img src={pic} className="contact-pic" alt="contact-pic"/>
                 <h5 className="d-inline-block text-truncate contact-name">
-                    {name}
+                    {name} <label className="contact-username">• {username}</label>
                 </h5>
                 <span className="d-inline-block text-truncate last-message">
                     {lastMes}

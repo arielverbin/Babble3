@@ -30,7 +30,7 @@
         right: 10px;
     }
 
-    nav {
+    #babble-nav {
         display: none;
     }
 
@@ -90,5 +90,3 @@
 
     left: 15px;
 }
-
-/* ------- Chat Footer ------ */
