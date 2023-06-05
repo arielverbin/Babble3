@@ -77,8 +77,8 @@ To run the Babble website locally, follow these steps:
 5. Open your browser and visit [http://localhost:3000](http://localhost:3000) to access the Babble website.
 
 ## Important Notes for Real-Time-Chatting!!!
-In order to experience a real-time chatting you must not open two different users in one browser, but you can either open them in two different browsers or open one user in an incognito window, and the other user in a regular window. 
-The advantage of that behaviour is the ability to save any chat even after doing "refresh". With the shared local storage technic such behavious can't work with 2 users on a same browser.
+In order to experience real-time chatting you must not open two different users in one browser, but you can either open them in two different browsers or open one user in an incognito window, and the other user in a regular window. 
+The advantage of that behavior is the ability to save any chat even after doing a "refresh". With the shared local storage technic such behavior can't work with 2 users on the same browser.
 
 We hope you'll enjoy our web & real time chatting experience :)
 Happy chatting!
