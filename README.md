@@ -41,21 +41,26 @@ To run the Babble website locally, follow these steps:
 
 1. Clone the repository: `git clone https://github.com/arielverbin/Babble3.git`
    
-2. Open a new terminal window, and navigate to the repository. Then, enter the `server` folder.
-3. Make sure that you have installed all required libraries: `npm i express cors body-parser mongoose custom-env socket.io`.
-4. Run the server using `npm test`, (or `export NODE_ENV=test && node app.js` for macOS/Linux, `set NODE_ENV=test && node app.js` for Widowns).
+2. Open a new terminal window, and navigate to the repository. Then, enter the *server* folder.
+3. Make sure that you have installed all required dependencies: `npm i express cors body-parser mongoose custom-env socket.io`.
+4. Run the server using `npm test`, (or `export NODE_ENV=test && node app.js` for macOS/Linux, `set NODE_ENV=test && node app.js` for Windows).
 5. The server should be running.
 
-6. Now, open a new terminal window and navigate the repository. Then, enter the 'babble' folder.
+6. Now, open a new terminal window and navigate the repository. Then, enter the *babble* folder.
 7. Install the required dependencies: `npm install`
 8. Start the react project using `npm start`.
 
 10. Open your browser and visit [http://localhost:3000](http://localhost:3000) to access the Babble website.
 
+- Alternatively, you can run `npm run build` inside the *babble* folder, and copy the content of the new folder - *build*, to the folder *public* in the server. In that case, change line 54 on `server.js`: 
+
+  ``origin: "http://localhost:3000",`` to -> ``origin: "http://localhost:" + process.env.PORT,``.
+  Then, simply ``run npm test`` on the *server* folder, and navigate to [http://localhost:5001](http://localhost:5001).
+
 ## Notes about Real-Time chatting.
 In this project, we have chosen to store the user's information in the localStorage of the browser. This decision was made to ensure that users do not get logged out when they refresh the page or reopen the browser. By utilizing localStorage, we provide a seamless experience where users can continue their session without interruption.
 
-However, it is important to note that localStorage is shared across all tabs within the same browser. While this approach enables persistence, it poses a limitation for experiencing real-time chatting. To fully utilize the real-time chatting functionality, we recommend connecting to multiple users using different browsers or opening a single incognito tab alongside a single regular tab.
+However, it is important to note that localStorage is shared across all tabs within the same browser. While this approach enables persistence, it poses a limitation for experiencing real-time chatting. To fully utilize the real-time chatting functionality, it is required to connect to multiple users using different browsers, or opening a single incognito tab alongside a single regular tab.
 
 ### We hope you'll enjoy our web & real time chatting experience :)
 ### Happy chatting! 😁
