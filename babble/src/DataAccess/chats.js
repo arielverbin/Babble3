@@ -27,7 +27,7 @@ function getDay(timeString) {
 
 
 export async function getMessages(contactID) {
-    //console.log("id: " + contactID)
+
     try {
         const res = await fetch('http://localhost:5001/api/Chats/' +
             contactID.toString() + '/Messages', {
@@ -75,6 +75,7 @@ export async function sendMessage(contactID, content) {
             'body': JSON.stringify({"msg": content})
         });
         socket.emit("send_message");
+
         return res.status === 200 ? 'success' : 'An error occurred, please try again.';
     } catch(error) {
         console.error('Error fetching messages:', error);

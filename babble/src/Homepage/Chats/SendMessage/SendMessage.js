@@ -1,9 +1,6 @@
 import {useRef, useState} from 'react';
 import './sendMessage.css'
 import {sendMessage} from "../../../DataAccess/chats";
-// import io from "socket.io-client";
-// const socket = io.connect("localhost:5001");
-
 
 function SendMessage({setCurChat, curContact, contacts, setContacts}) {
 
@@ -76,7 +73,7 @@ function SendMessage({setCurChat, curContact, contacts, setContacts}) {
         setDisabled(true);
 
         inputBox.current.focus();
-        
+
     };
 
     // disable/enable send button.
@@ -125,7 +122,6 @@ function SendMessage({setCurChat, curContact, contacts, setContacts}) {
                     <button type="reset" id="send-message" onClick={(event) => {
                         event.preventDefault();
                         handleSend()
-                        //sendMessage1();
 
                     }} disabled={disabled}/>
                 </form>

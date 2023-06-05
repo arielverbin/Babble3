@@ -7,9 +7,7 @@ import {useNavigate} from "react-router-dom";
 import {getContacts} from "../DataAccess/contacts";
 import {getMessages} from "../DataAccess/chats";
 import {logOut} from "../DataAccess/users";
-import io from "socket.io-client";
-let x = 0;
-const socket = io.connect("localhost:5001")
+
 
 function Babble() {
 
@@ -27,6 +25,7 @@ function Babble() {
     const [focusedContact, setFocusedContact] = useState("");
     const [displayedContacts, setDisplayedContacts] = useState({});
     const [curChat, setCurChat] = useState({});
+
 
     const [recievedMes, setRecievedMes] = useState("");
 
@@ -47,6 +46,25 @@ function Babble() {
 
     // Init current chat messages.
     useEffect(() => {
+
+
+    // Init current contact list.
+    useEffect(() => {
+        const initContacts = async () => {
+            const contacts = await getContacts();
+            if(contacts === 'An error occurred, please try again.') {
+                console.log("We encountered a problem fetching your data...");
+                //logOut();
+                //navigate('/');
+                return;
+            }
+            setDisplayedContacts(contacts);
+        };
+        initContacts();
+    }, [navigate]);
+
+    // Init current chat messages.
+    useEffect(() => {
         const initChat = async () => {
             const messages = await getMessages(displayedContacts[focusedContact].id);
             if(messages === 'Error downloading previous messages.') {
@@ -57,6 +75,14 @@ function Babble() {
             }
             setCurChat(messages);
         };
+
+
+        if(displayedContacts[focusedContact]) {
+            initChat();
+        } else {
+            setCurChat(undefined);
+        }
+    }, [focusedContact, displayedContacts, navigate]);
 
         if(displayedContacts[focusedContact]) {
             initChat();
