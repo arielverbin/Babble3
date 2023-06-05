@@ -8,6 +8,7 @@ import {getContacts} from "../DataAccess/contacts";
 import {getMessages} from "../DataAccess/chats";
 import {logOut} from "../DataAccess/users";
 
+
 function Babble() {
 
     const navigate = useNavigate();
@@ -24,6 +25,28 @@ function Babble() {
     const [focusedContact, setFocusedContact] = useState("");
     const [displayedContacts, setDisplayedContacts] = useState({});
     const [curChat, setCurChat] = useState({});
+
+
+    const [recievedMes, setRecievedMes] = useState("");
+
+    // Init current contact list.
+    useEffect(() => {
+        const initContacts = async () => {
+            const contacts = await getContacts();
+            if(contacts === 'An error occurred, please try again.') {
+                console.log("We encountered a problem fetching your data...");
+                //logOut();
+                //navigate('/');
+                return;
+            }
+            setDisplayedContacts(contacts);
+        };
+        initContacts();
+    }, [navigate , recievedMes]);
+
+    // Init current chat messages.
+    useEffect(() => {
+
 
     // Init current contact list.
     useEffect(() => {
@@ -53,6 +76,7 @@ function Babble() {
             setCurChat(messages);
         };
 
+
         if(displayedContacts[focusedContact]) {
             initChat();
         } else {
@@ -60,6 +84,20 @@ function Babble() {
         }
     }, [focusedContact, displayedContacts, navigate]);
 
+        if(displayedContacts[focusedContact]) {
+            initChat();
+        } else {
+            setCurChat(undefined);
+        }
+    }, [focusedContact, displayedContacts, navigate, recievedMes]);
+    
+    useEffect(() => {        
+        socket.on("receive_message", () => {
+            setRecievedMes(x);
+            x++;
+            console.log("gottttt")
+        });
+    }, [socket]);
     return (
         <div id="homepage">
             <NavBar/>

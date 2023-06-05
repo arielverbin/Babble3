@@ -1,3 +1,6 @@
+import io from "socket.io-client";
+const socket = io.connect("localhost:5001");
+
 function getTime(timeString) {
     const dateObj = new Date(timeString);
     const hours = dateObj.getHours().toString().padStart(2, '0');
@@ -24,7 +27,7 @@ function getDay(timeString) {
 
 
 export async function getMessages(contactID) {
-    console.log("id: " + contactID)
+
     try {
         const res = await fetch('http://localhost:5001/api/Chats/' +
             contactID.toString() + '/Messages', {
@@ -60,6 +63,7 @@ export async function getMessages(contactID) {
 
 
 export async function sendMessage(contactID, content) {
+
     try {
         const res = await fetch('http://localhost:5001/api/Chats/' +
             contactID.toString() + '/Messages', {
@@ -70,6 +74,7 @@ export async function sendMessage(contactID, content) {
             },
             'body': JSON.stringify({"msg": content})
         });
+        socket.emit("send_message");
 
         return res.status === 200 ? 'success' : 'An error occurred, please try again.';
     } catch(error) {

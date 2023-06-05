@@ -1,4 +1,7 @@
 import {deleteContact} from "../../../DataAccess/contacts";
+import io from "socket.io-client";
+const socket = io.connect("localhost:5001");
+
 
 function RemoveContact({focusedContact, id, setDisplayedContacts, setFocusedContact}) {
 
@@ -13,7 +16,9 @@ function RemoveContact({focusedContact, id, setDisplayedContacts, setFocusedCont
                     delete newContacts[focusedContact];
                     return newContacts;
                 });
-        }
+                
+            }
+        socket.emit("send_message");
     }
 
     return (

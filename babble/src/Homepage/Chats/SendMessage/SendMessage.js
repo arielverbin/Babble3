@@ -73,6 +73,7 @@ function SendMessage({setCurChat, curContact, contacts, setContacts}) {
         setDisabled(true);
 
         inputBox.current.focus();
+
     };
 
     // disable/enable send button.
@@ -121,6 +122,7 @@ function SendMessage({setCurChat, curContact, contacts, setContacts}) {
                     <button type="reset" id="send-message" onClick={(event) => {
                         event.preventDefault();
                         handleSend()
+
                     }} disabled={disabled}/>
                 </form>
             </div>
