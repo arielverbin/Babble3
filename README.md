@@ -55,7 +55,7 @@ To run the Babble website locally, follow these steps:
 - Alternatively, you can run `npm run build` inside the *babble* folder, and copy the content of the new folder - *build*, to the folder *public* in the server. In that case, change line 54 on `server.js`: 
 
   ``origin: "http://localhost:3000",`` to -> ``origin: "http://localhost:" + process.env.PORT,``.
-  Then, simply ``run npm test`` on the *server* folder, and navigate to [http://localhost:5001](http://localhost:5001).
+  Then, simply run ``npm test`` on the *server* folder, and navigate to [http://localhost:5001](http://localhost:5001).
 
 ## Notes about Real-Time chatting.
 In this project, we have chosen to store the user's information in the localStorage of the browser. This decision was made to ensure that users do not get logged out when they refresh the page or reopen the browser. By utilizing localStorage, we provide a seamless experience where users can continue their session without interruption.
