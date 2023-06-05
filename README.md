@@ -29,12 +29,6 @@ The Babble website incorporates the following API endpoints and functionalities:
 
 Please refer to the API documentation for detailed information on each endpoint.
 
-## Notes
-
-* The Babble website currently does not have a backend server or database implementation. As a result, the messages sent through the application are not actually delivered to anyone. The focus of this assignment is on developing the user interface and functionality.
-
-* User credentials (username and password) are stored in the browser's local storage. After the initial login or registration, the browser will save this data, allowing automatic login even after refreshing or reopening the browser. To log out, use the provided "Log out" button.
-
 ## Getting Started
 
 To run the Babble website locally, follow these steps:
@@ -83,9 +77,8 @@ To run the Babble website locally, follow these steps:
 5. Open your browser and visit [http://localhost:3000](http://localhost:3000) to access the Babble website.
 
 ## Important Notes for Real-Time-Chatting!!!
-in order to experience the real time chatting you need to open different browser/computers/a incognito window and a regular window
-
-** the incognito window is needed in order to make sure the chats' content will be saved because we added a feature that disabled the option to connect multiple users from the same browser in different tabs.
+in order to experience real-time chatting you must not open two different users in one browser. You can either open in two different browsers or open one user in an incognito window, and the other in regular. 
+This is because we chose the prefer that the chats will be saved even on refresh, on the issue that the 'babble' doesn't work on two users on the same browser.
 
 We hope you'll enjoy our web & real time chatting experience :)
 Happy chatting!
