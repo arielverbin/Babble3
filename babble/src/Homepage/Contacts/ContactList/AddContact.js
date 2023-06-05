@@ -1,12 +1,12 @@
 import {useRef} from "react";
 import './addContact.css'
-import {createChat} from '../../../userData.js'
+import {addContact} from "../../../DataAccess/contacts";
 
 function AddContact({setDisplayedContacts, displayedContacts}) {
 
     const contactBox = useRef(null);
 
-    const handleAddContact = function () {
+    const handleAddContact = async function () {
         const username = contactBox.current.value.trim().toLowerCase();
 
         if (displayedContacts.hasOwnProperty(username)) {
@@ -14,13 +14,17 @@ function AddContact({setDisplayedContacts, displayedContacts}) {
             return;
         }
 
-        createChat(username, localStorage.getItem('username')); //create a new chat with the inputted contact.
+        const rawContact = await addContact(username);
+        if(typeof rawContact === 'string') {
+            alert(rawContact);
+            return;
+        }
 
         // new contact data.
         const newContact = {
             [username]: {
-                name: username + ' (username)', lastMes: "This conversation is new.", pic: './contacts/default.jpeg',
-                timeChatted: "", unreads: 0, focus: false
+                name: rawContact.name, lastMes: "This conversation is new.", pic: rawContact.pic,
+                timeChatted: "", unreads: 0, focus: false, id: rawContact.id
             }
         };
 
@@ -35,7 +39,6 @@ function AddContact({setDisplayedContacts, displayedContacts}) {
     const handleEnter = function (event) {
         if (event.key === 'Enter' || event.keyCode === 13) {
             event.preventDefault(); // Prevent form submission
-            handleAddContact();
             const addBtn = document.getElementById("add-contact-btn");
             addBtn.click();
         }

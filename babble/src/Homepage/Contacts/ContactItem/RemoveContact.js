@@ -1,10 +1,13 @@
-import { deleteChat } from '../../../userData'
+import {deleteContact} from "../../../DataAccess/contacts";
+import io from "socket.io-client";
+const socket = io.connect("localhost:5001");
 
-function RemoveContact({focusedContact, setDisplayedContacts, setFocusedContact}) {
+function RemoveContact({focusedContact, id, setDisplayedContacts, setFocusedContact}) {
 
     const handleDelete = function () {
         if(window.confirm("Please note that this action cannot be undone. Press OK to delete.")){
-            deleteChat(focusedContact, localStorage.getItem('username'));
+            console.log("id: " + id);
+            deleteContact(id);
             setFocusedContact("");
             setDisplayedContacts(
                 (displayedContacts) => {
@@ -12,7 +15,9 @@ function RemoveContact({focusedContact, setDisplayedContacts, setFocusedContact}
                     delete newContacts[focusedContact];
                     return newContacts;
                 });
-        }
+                
+            }
+        socket.emit("send_message");
     }
 
     return (

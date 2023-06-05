@@ -2,7 +2,7 @@ import './chat.css';
 import ChatContent from './ChatContent/ChatContent';
 import SendMessage from './SendMessage/SendMessage';
 
-function Chat({contact, chat, setCurChat, focusedContact, displayedContacts}) {
+function Chat({contact, contacts, setContacts, chat, setCurChat}) {
 
     if (contact === undefined || chat === undefined) {
         return (<div id="chat">
@@ -19,7 +19,7 @@ function Chat({contact, chat, setCurChat, focusedContact, displayedContacts}) {
 
             <ChatContent chat={chat}/>
 
-            <SendMessage chat={chat} setCurChat={setCurChat} curContact={displayedContacts[focusedContact]}/>
+            <SendMessage setCurChat={setCurChat} curContact={contact} contacts={contacts} setContacts={setContacts}/>
         </div>
     );
 }

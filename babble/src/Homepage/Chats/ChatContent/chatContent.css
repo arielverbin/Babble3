@@ -12,3 +12,16 @@
     margin: 20px auto;
     text-align: center;
 }
+
+.date-area {
+    float: right;
+    width: 100%;
+    text-align: center;
+    margin: 10px 0;
+}
+
+.date-area div {
+    color: grey;
+    position: relative;
+    font-size: 12px;
+}

@@ -2,6 +2,7 @@ import LeftSide from '../LeftSide/LeftSide';
 import './RegisterPage.css';
 import {Link, useNavigate} from 'react-router-dom';
 import {useRef, useState} from 'react';
+import {loginUser, registerUser} from "../../DataAccess/users";
 
 function RegisterPage() {
 
@@ -12,7 +13,6 @@ function RegisterPage() {
     const displayName = useRef(null);
     const password = useRef(null);
     const confirmPassword = useRef(null);
-
     const [selectedPic, setSelectedPic] = useState(null);
 
     const handleChangePicture = function (event) {
@@ -23,9 +23,8 @@ function RegisterPage() {
                 setSelectedPic(e.target.result);
             }
             reader.readAsDataURL(selectedFile);
-        } else {
-            setSelectedPic(null);
         }
+
     }
 
     // Validation errors.
@@ -69,16 +68,6 @@ function RegisterPage() {
         const user = username.current.value.trim().toLowerCase();
         username.current.value = user;
 
-        // username already exists?
-        const storedData = localStorage.getItem('users');
-        const usersArray = storedData ? JSON.parse(storedData) : [];
-
-        if (usersArray.find(user => user.username === username.current.value)) {
-            username.current.style.borderColor = 'red';
-            setUsernameError("Username already exists.");
-            return;
-        }
-
         if (/^[a-z0-9._]+$/.test(user)) {
             username.current.style.borderColor = 'rgb(25,162,4)';
             setUsernameError('');
@@ -93,7 +82,8 @@ function RegisterPage() {
         }
     }
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
+        event.preventDefault();
         if (username.current.value !== ""
             && displayName.current.value !== ""
             && selectedPic !== null
@@ -101,35 +91,44 @@ function RegisterPage() {
             && confirmPassword.current.value !== "") {
 
             if (passwordError !== '') {
-                event.preventDefault();
                 alert(passwordError);
             } else if (password.current.value !== confirmPassword.current.value) {
-                event.preventDefault();
                 alert(confirmPasswordError);
             } else if (usernameError !== "") {
-                event.preventDefault();
                 alert(usernameError);
             } else {
 
                 // Store user's data.
                 localStorage.setItem('username', username.current.value);
-                localStorage.setItem('password', password.current.value);
                 localStorage.setItem('displayName', displayName.current.value);
                 localStorage.setItem('profilePic', selectedPic);
+
                 // Add new user to array of all users.
-                const storedData = localStorage.getItem('users');
-                const usersArray = storedData ? JSON.parse(storedData) : [];
-                usersArray.push({
-                    'username': username.current.value,
-                    'displayName': displayName.current.value,
-                    'selectedImage': selectedPic,
-                    'password': password.current.value
-                });
-                localStorage.setItem('users', JSON.stringify(usersArray));
-                // Success! Logging in...
-                localStorage.setItem('loggedIn', 'true');
-                navigate('/babble');
+                const result = await registerUser(username.current.value, password.current.value,
+                    displayName.current.value, selectedPic);
+
+                if (result === 'success') {
+                    // Success! auto logging in...
+                    const autoLogin = await loginUser(username.current.value, password.current.value)
+                    if (autoLogin === 'An error occurred, please try again.' ||
+                        autoLogin === 'Username or password does not match.') {
+                        alert('Successfully registered, but an error occurred after log in.' +
+                            'You can manually log into your account by navigating to the login page.');
+                        return;
+                    }
+                    navigate('/babble');
+                    return;
+
+                } else if (result === 'Username already exists.') {
+                    username.current.style.borderColor = 'red';
+                    setUsernameError("Username already exists.");
+                    return;
+                }
+                alert(result);
             }
+        }
+        else {
+            alert('All fields are required.');
         }
     }
 
@@ -222,13 +221,21 @@ function RegisterPage() {
 
                     {/* display the chosen photo */}
                     {selectedPic && (
-                        <div>
-                            <img
-                                id='pic-preview'
-                                src={selectedPic}
-                                alt="Selected"
-                            />
-                        </div>
+                        <>
+                            <div>
+                                <img
+                                    id='pic-preview'
+                                    src={selectedPic}
+                                    alt="Selected"
+                                />
+                                <button id='remove-pic' onClick={()=> {
+                                    setSelectedPic(null);
+                                    const file = document.getElementById('select-pic');
+                                    file.value = file.defaultValue;
+                                }}
+                                    />
+                            </div>
+                        </>
                     )}
 
                     <div>

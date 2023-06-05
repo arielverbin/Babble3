@@ -9,18 +9,30 @@
 
 #search-contact {
     position: relative;
-    width: calc(100% - 35px);
-    left: 10px;
+    width: calc(100% - 20px);
+    left: 6px;
     bottom: 10px;
 
-    padding: 0 15px;
+    padding: 0 15px 0 27px;
 
     color: rgb(71, 71, 71);
 
+    font-family: Arial, FontAwesome, serif;
     outline: none;
     border: none;
     background-color: rgba(0, 0, 0, 0.03);
     border-radius: 8px;
+}
+
+#search-icon {
+    position: absolute;
+    background-image: url(../../buttons/search.svg);
+    width: 13px;
+    height: 13px;
+    left: 35px;
+    bottom: 16px;
+
+    opacity: 0.5;
 }
 
 #contacts > .container {
