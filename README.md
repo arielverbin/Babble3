@@ -43,27 +43,30 @@ To run the Babble website locally, follow these steps:
    ```
    git clone https://github.com/arielverbin/Babble3.git
    ```
-
-2. Navigate to the project directory:
+2. Open 2 terminals, one for client and one for server:
+3. Set up the server:
+   - Navigate to the project directory:
    ```
    cd Babble3
    ```
-
-3. Set up the server:
    - Go to the server directory:
      ```
      cd server
      ```
    - Install the required dependencies:
      ```
-     npm install
+     npm i express cors body-parser mongoose custom-env socket.io
      ```
    - Start the server:
      ```
-     npm start
+     npm test
      ```
 
 4. Set up the client:
+   - Navigate to the project directory:
+   ```
+   cd Babble3
+   ```
    - Go to the client directory:
      ```
      cd ../babble
@@ -82,7 +85,7 @@ To run the Babble website locally, follow these steps:
 ## Important Notes for Real-Time-Chatting!!!
 in order to experience the real time chatting you need to open different browser/computers/a incognito window and a regular window
 
-
+** the incognito window is needed in order to make sure the chats' content will be saved because we added a feature that disabled the option to connect multiple users from the same browser in different tabs.
 
 We hope you'll enjoy our web & real time chatting experience :)
 Happy chatting!
