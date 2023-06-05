@@ -1,8 +1,14 @@
+import io from "socket.io-client";
+import {setSocket, socket} from "../Homepage/Babble";
+
+export const serverAddress = 'http://localhost:5001'
+
 export function setUserJWT(newJWT) {
     localStorage.setItem('JWT', newJWT);
 }
 
 export function logOut() {
+    socket.disconnect();
     localStorage.setItem('JWT', undefined)
     localStorage.setItem('username', undefined);
     localStorage.setItem('displayName', undefined);
@@ -21,7 +27,7 @@ export async function registerUser(username, password, displayName, profilePic) 
             "profilePic": profilePic
         };
 
-        const res = await fetch('http://localhost:5001/api/Users', {
+        const res = await fetch(serverAddress + '/api/Users', {
             'method': 'post',
             'headers': {
                 'Content-Type': 'application/json',
@@ -37,7 +43,7 @@ export async function registerUser(username, password, displayName, profilePic) 
 
         return "Ooopss! We've run into a problem :(\nPlease try again later";
     } catch (error) {
-        console.error('Error fetching messages:', error);
+        console.log('Error fetching messages:', error);
         return "Ooopss! We've run into a problem :(\nPlease try again later";
     }
 }
@@ -47,7 +53,7 @@ export async function registerUser(username, password, displayName, profilePic) 
  */
 async function getUserDetails(username) {
     try {
-        const res = await fetch('http://localhost:5001/api/Users/' + username, {
+        const res = await fetch(serverAddress + '/api/Users/' + username, {
             'method': 'get',
             'headers': {
                 'Content-Type': 'application/json',
@@ -58,7 +64,7 @@ async function getUserDetails(username) {
             return await res.json();
         } else return "Ooopss! We've run into a problem :(\nPlease try again later";
     } catch (error) {
-        console.error('Error fetching messages:', error);
+        console.log('Error fetching messages:', error);
         return "Ooopss! We've run into a problem :(\nPlease try again later";
     }
 }
@@ -67,7 +73,7 @@ export async function setUserDetails(username, newPic, newDisplayName) {
     console.log("lmao: " + username);
     try {
         console.log("trying....");
-        const res = await fetch('http://localhost:5001/api/Users/' + username, {
+        const res = await fetch(serverAddress + '/api/Users/' + username, {
             'method': 'put',
             'headers': {
                 'Content-Type': 'application/json',
@@ -78,7 +84,7 @@ export async function setUserDetails(username, newPic, newDisplayName) {
 
         return res.status === 200 ? 'success' : 'error';
     } catch (error) {
-        console.error('Error fetching messages:', error);
+        console.log('Error fetching messages:', error);
         return 'error';
     }
 }
@@ -93,7 +99,7 @@ export async function loginUser(username, password) {
             "password": password
         }
 
-        const res = await fetch('http://localhost:5001/api/Tokens', {
+        const res = await fetch(serverAddress + '/api/Tokens', {
             'method': 'post',
             'headers': {
                 'Content-Type': 'application/json',
@@ -102,15 +108,24 @@ export async function loginUser(username, password) {
         });
 
         if (res.status === 200) {
+
+            // establish a WebSocket connection with the server.
+            console.log('establish a WebSocket connection with the server: ' + username);
+            setSocket(io.connect("localhost:5001", {
+                query: {
+                    username: username
+                }
+            }));
+
             const userJWT = await res.text(); //save the user's token.
             localStorage.setItem('JWT', userJWT);
             return await getUserDetails(username);
-
         }
+
         return res.status === 404 ? 'Username or password does not match.' :
             "Ooopss! We've run into a problem :(\nPlease try again later";
     } catch (error) {
-        console.error('Error fetching messages:', error);
+        console.log('Error fetching messages:', error);
         return "Ooopss! We've run into a problem :(\nPlease try again later";
     }
 }

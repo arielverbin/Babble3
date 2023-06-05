@@ -15,9 +15,10 @@ const getChats = async (req, res) => {
 
 const getChatsWithUser = async (req, res) => {
     // Access the username from req.user object set by isLoggedIn middleware
-    const ourUserId = (await userService.getUser(req.username))._id;
+    const ourUserId = (await userService.getUser(req.username)).id;
     const targetUserId = req.params.id;
     const chats = await chatService.searchChatsByIDs(ourUserId, targetUserId);
+
     if (!chats) {
         return res.status(404).send("Chat not found");
     }
@@ -51,8 +52,10 @@ const addChat = async (req, res) => {
 const deleteChat = async (req, res) => {
     const deleteResult = await chatService.deleteChat(req.params.id);
     if (deleteResult === 1) {
-        return res.status(200)
-    } else return res.status(400)
+        return res.status(200).send('');
+    } else if (deleteResult === -1) {
+        return res.status(404).send('');
+    } else return res.status(400).send('');
 }
 
 

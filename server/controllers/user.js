@@ -16,7 +16,11 @@ const createUser = async (req, res) => {
     }
 
     // Return 200 status code and the saved user object
-    return res.status(200).json(newUser);
+    return res.status(200).json({
+        username: req.body.username,
+        displayName: req.body.displayName,
+        profilePic: req.body.profilePic
+    });
 
 };
 
@@ -34,7 +38,7 @@ const updateUser = async (req, res) => {
     if (!(await userService.updateUser(req.params.username, req.body.newPic, req.body.newDisplayName))) {
         res.status(500).send('Error updating user');
     }
-    res.status(200).send('success');
+    res.status(200).json({});
 }
 
 const isLoggedIn = async (req, res, next) => {

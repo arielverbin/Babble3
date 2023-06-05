@@ -8,9 +8,13 @@ const key = "Some super secret key shhhhhhhhhhhhhhhhh!!!!!";
 
 const sendMessage = async (req, res) => {
     // Get our username ID.
-    const userID = (await userService.getUser(req.username))._id;
+    const userID = (await userService.getUser(req.username)).id;
     // Get the current chat ID.
     const chatID = req.params.id;
+
+    if (req.body.msg === '' && !req.body.fileName) {
+        return res.status(400).send("Empty messages are not allowed.");
+    }
 
     //create message
     const message = await messageService.createMessage(userID, req.body.msg);
@@ -18,8 +22,15 @@ const sendMessage = async (req, res) => {
         return res.status(500).send("Error creating a new message.");
     }
     //add message to chat
-    if (!(await chatService.addMsgToChat(chatID, message._id))) {
+    if (!(await chatService.addMsgToChat(chatID, message.id))) {
         return res.status(500).send("Error adding message to chat.");
+    }
+
+    if (req.body.fileName) {
+        if (await messageService.saveFile(req.body.fileName, req.body.fileData, message.id)) {
+            return res.status(200).json(message);
+        }
+        return res.status(500).send("Error saving file.");
     }
 
     return res.status(200).json(message);
@@ -34,6 +45,27 @@ const getMessages = async (req, res) => {
     //get the chat's messages
     const messages = chat.messages;
     return res.status(200).json(messages);
+}
+
+// return all file names for a specific chat.
+const getFileNames = async (req, res) => {
+    const chat = await chatService.findChatById(req.params.id);
+    if (!chat) {
+        return res.status(404).send("Chat not found");
+    }
+    const messageIds = chat.messages.map((message) => message);
+    const names = await messageService.findFileNamesByMessages(messageIds);
+
+    return res.status(200).json(names);
+}
+
+// get a specific file from a message.
+const getFile = async (req, res) => {
+    const file = await messageService.getFileByMsgId(req.params.msgId);
+    if(!file) {
+        return res.status(500).send('Error fetching file.');
+    }
+    return res.status(200).json({data : file.data});
 }
 
 const isLoggedIn = async (req, res, next) => {
@@ -55,4 +87,4 @@ const isLoggedIn = async (req, res, next) => {
         return res.status(403).send('Token required');
 };
 
-module.exports = {isLoggedIn, sendMessage, getMessages};
+module.exports = {isLoggedIn, sendMessage, getMessages, getFileNames, getFile};

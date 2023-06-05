@@ -6,8 +6,22 @@ import NavBar from './NavBar/NavBar';
 import {useNavigate} from "react-router-dom";
 import {getContacts} from "../DataAccess/contacts";
 import {getMessages} from "../DataAccess/chats";
-import {logOut} from "../DataAccess/users";
+import io from "socket.io-client";
 
+export let socket;
+// establish a WebSocket connection with the server.
+socket = (localStorage.getItem('JWT') &&
+    localStorage.getItem('JWT') !== 'null' &&
+    localStorage.getItem('JWT') !== 'undefined')
+    ? io.connect("localhost:5001", {
+        query: {
+            username: localStorage.getItem('username')
+        }
+    }) : null;
+
+export const setSocket = function (newSocket) {
+    socket = newSocket;
+}
 
 function Babble() {
 
@@ -15,7 +29,7 @@ function Babble() {
 
     // Block entrance without logging in - return to landing page.
     useEffect(() => {
-        if (localStorage.getItem('JWT') === 'undefined' ||
+        if (!localStorage.getItem('JWT') || localStorage.getItem('JWT') === 'undefined' ||
             localStorage.getItem('JWT') === 'null') {
             navigate('/');
         }
@@ -25,79 +39,68 @@ function Babble() {
     const [focusedContact, setFocusedContact] = useState("");
     const [displayedContacts, setDisplayedContacts] = useState({});
     const [curChat, setCurChat] = useState({});
-
-
-    const [recievedMes, setRecievedMes] = useState("");
+    const [triggerRender, setTriggerRender] = useState(1);
 
     // Init current contact list.
     useEffect(() => {
         const initContacts = async () => {
+            console.log("Trigger: " + triggerRender);
             const contacts = await getContacts();
-            if(contacts === 'An error occurred, please try again.') {
+            if (contacts === 'An error occurred, please try again.') {
                 console.log("We encountered a problem fetching your data...");
-                //logOut();
-                //navigate('/');
                 return;
             }
             setDisplayedContacts(contacts);
         };
+
         initContacts();
-    }, [navigate , recievedMes]);
-
-    // Init current chat messages.
-    useEffect(() => {
-
-
-    // Init current contact list.
-    useEffect(() => {
-        const initContacts = async () => {
-            const contacts = await getContacts();
-            if(contacts === 'An error occurred, please try again.') {
-                console.log("We encountered a problem fetching your data...");
-                //logOut();
-                //navigate('/');
-                return;
-            }
-            setDisplayedContacts(contacts);
-        };
-        initContacts();
-    }, [navigate]);
+    }, [navigate, triggerRender]);
 
     // Init current chat messages.
     useEffect(() => {
         const initChat = async () => {
             const messages = await getMessages(displayedContacts[focusedContact].id);
-            if(messages === 'Error downloading previous messages.') {
+            if (messages === 'Error downloading previous messages.') {
                 console.log("We encountered a problem fetching your data...");
-                logOut();
-                navigate('/');
                 return;
             }
             setCurChat(messages);
         };
 
-
-        if(displayedContacts[focusedContact]) {
+        if (displayedContacts[focusedContact]) {
             initChat();
         } else {
             setCurChat(undefined);
         }
     }, [focusedContact, displayedContacts, navigate]);
 
-        if(displayedContacts[focusedContact]) {
-            initChat();
-        } else {
-            setCurChat(undefined);
+    // Update contact list when chat creation occurs.
+    useEffect(() => {
+        const handleNewChat = () => {
+            setTriggerRender(1 - triggerRender);
         }
-    }, [focusedContact, displayedContacts, navigate, recievedMes]);
-    
-    useEffect(() => {        
-        socket.on("receive_message", () => {
-            setRecievedMes(x);
-            x++;
-            console.log("gottttt")
-        });
-    }, [socket]);
+        if (socket) {
+            socket.on('new-chat', handleNewChat);
+            return () => {
+                socket.off('new-chat', handleNewChat);
+            }
+        }
+
+    }, [triggerRender]);
+
+    // Update contact list when chat deletion occurs.
+    useEffect(() => {
+        const handleDeletedChat = () => {
+            setTriggerRender(1 - triggerRender);
+        }
+        if (socket) {
+            socket.on('deleted-chat', handleDeletedChat);
+            return () => {
+                socket.off('deleted-chat', handleDeletedChat);
+            }
+        }
+    }, [triggerRender]);
+
     return (
         <div id="homepage">
             <NavBar/>

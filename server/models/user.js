@@ -14,10 +14,14 @@ const User = new Schema({
         type: String,
         required: true
     },
+    currentSocket: {
+        type: String,
+        default: null
+    },
     profilePic: {
         type: String,
         required: true
-    }
+    },
 });
 
 module.exports = mongoose.model('User', User);

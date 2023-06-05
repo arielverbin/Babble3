@@ -4,6 +4,8 @@
     height: calc(100% - 80px);
     width: 100%;
 
+    overflow: hidden;
+
     background-color: aliceblue;
     min-width: 500px;
     min-height: 600px;

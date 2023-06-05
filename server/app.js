@@ -1,9 +1,15 @@
+const userService = require('./services/user');
+const messageService = require('./services/message');
+const chatService = require('./services/chat');
+
 // importing express
 const express = require('express');
 const app = express();
 
+// importing http.
 const http = require("http");
-const { Server } = require("socket.io");
+// use of socket.io
+const {Server} = require("socket.io");
 // use body-parser to phrase the body of requests as json/URL-encoded.
 const bodyParser = require('body-parser');
 
@@ -44,29 +50,51 @@ app.use('/api/Chats', chats);
 const token = require('./routes/Token');
 app.use('/api/Tokens', token);
 
+// initialize http server.
 const server = http.createServer(app)
-
 const io = new Server(server, {
     cors: {
-      origin: "http://localhost:3000",
-      methods: ["GET", "POST" , "DELETE"],
+        origin: "http://localhost:" + process.env.PORT,
+        methods: ["GET", "POST", "DELETE", "PUT"],
     },
-  });
+});
 
-io.on("connection", (socket) => {
-    socket.on("send_message", () => {
-        socket.broadcast.emit("receive_message");
+io.on("connection", async (socket) => {
+    const currentUsername = socket.handshake.query.username;
+
+    await userService.attachSocket(currentUsername, socket.id);
+
+    socket.on("send_message", async (message) => {
+        const receiverSocketID = await chatService.findReceiver(socket.handshake.query.username,
+            message.chatID);
+
+
+        if (receiverSocketID) { // receiver is connected
+            await messageService.notifySendMessage(io, receiverSocketID, message);
+        }
+        //otherwise, don't need to notify anyone! When the receiver will be logged in,
+        //they will fetch their messages anyway.
+    });
+
+    socket.on("add-chat", async (contactUsername) => {
+        const receiverSocketID = (await userService.getSocketID(contactUsername));
+        if (receiverSocketID) { // receiver is connected
+            await chatService.notifyNewChat(io, receiverSocketID);
+        }
+    });
+
+    socket.on("remove-chat", async (contactUsername) => {
+        const receiverSocketID = (await userService.getSocketID(contactUsername));
+        if (receiverSocketID) { // receiver is connected
+            await chatService.notifyRemoveChat(io, receiverSocketID);
+        }
+    });
+
+    socket.on("disconnect", async () => {
+        // Client disconnected
+        console.log("Client " + socket.handshake.query.username + " disconnected:", socket.id);
+        await userService.disconnect(socket.handshake.query.username);
     });
 });
 // // server start.
 server.listen(process.env.PORT);
-
-// io.on("connection", (socket) => {
-//     console.log(`User connected: ${socket.id}`);
-//   });
-  
-// server.listen(process.env.PORT, () => {
-// console.log(`Server started on port ${process.env.PORT}`);
-// });
-
-

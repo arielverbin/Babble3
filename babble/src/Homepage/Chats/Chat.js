@@ -17,9 +17,10 @@ function Chat({contact, contacts, setContacts, chat, setCurChat}) {
                 <img src={contact.pic} className="contact-header-pic" alt="contact-pic"/>
             </header>
 
-            <ChatContent chat={chat}/>
+            <ChatContent chat={chat} setChat={setCurChat} curContact={contact}/>
 
-            <SendMessage setCurChat={setCurChat} curContact={contact} contacts={contacts} setContacts={setContacts}/>
+            <SendMessage setCurChat={setCurChat} curContact={contact} contacts={contacts} setContacts={setContacts}
+                         />
         </div>
     );
 }

@@ -1,15 +1,24 @@
 import {useRef, useState} from 'react';
 import './sendMessage.css'
 import {sendMessage} from "../../../DataAccess/chats";
+import {socket} from "../../Babble";
 
 function SendMessage({setCurChat, curContact, contacts, setContacts}) {
 
     const [selectedFile, setSelectedFile] = useState(null);
+    const [fileData, setFileData] = useState(null);
 
     const handleFileInputChange = (event) => {
         const file = event.target.files[0];
         event.target.value = '';
         setSelectedFile(file);
+
+        const reader = new FileReader();
+        reader.onload = () => {
+            setFileData(reader.result);
+        };
+        reader.readAsDataURL(file);
+
         if (file) {
             setDisabled(false);
             return;
@@ -55,12 +64,20 @@ function SendMessage({setCurChat, curContact, contacts, setContacts}) {
             reply: false,
             timeSent: getCurrentTime(),
             extendedTime: getCurrentDateTime(),
-            attachedFile: selectedFile ? selectedFile : null
+            attachedFile: selectedFile ? selectedFile.name : null
         };
-        const res = await sendMessage(curContact.id, inputBox.current.value);
-        if (res === 'An error occurred, please try again.') {
-            alert(res);
-            return;
+        if (selectedFile) {
+            const res = await sendMessage(curContact.id, inputBox.current.value, selectedFile.name, fileData);
+            if (typeof res === 'string') {
+                alert(res);
+                return;
+            }
+        } else {
+            const res = await sendMessage(curContact.id, inputBox.current.value, null, null);
+            if (res === 'An error occurred, please try again.') {
+                alert(res);
+                return;
+            }
         }
 
         setCurChat((curChat) => [...curChat, newMessage]); //append message to chat array.
@@ -72,8 +89,16 @@ function SendMessage({setCurChat, curContact, contacts, setContacts}) {
         setSelectedFile(null); //empty selected file.
         setDisabled(true);
 
-        inputBox.current.focus();
+        // notify new message.
+        if (socket) {
+            socket.emit('send_message', {
+                chatID: curContact.id,
+                sender: localStorage.getItem('username'),
+                message: newMessage
+            });
+        }
 
+        inputBox.current.focus();
     };
 
     // disable/enable send button.
@@ -95,7 +120,6 @@ function SendMessage({setCurChat, curContact, contacts, setContacts}) {
                 <form id="send-form">
                     <label id="attach-file" htmlFor="file-upload"/>
                     <input
-                        disabled // Server does not support.
                         type="file"
                         id="file-upload"
                         onChange={handleFileInputChange}/>
@@ -119,10 +143,9 @@ function SendMessage({setCurChat, curContact, contacts, setContacts}) {
                         onKeyDown={checkSend}
                         autoComplete='off'
                     />
-                    <button type="reset" id="send-message" onClick={(event) => {
+                    <button type="reset" id="send-message" onClick={async (event) => {
                         event.preventDefault();
-                        handleSend()
-
+                        await handleSend()
                     }} disabled={disabled}/>
                 </form>
             </div>

@@ -2,8 +2,44 @@ import {useEffect, useRef, useState} from "react";
 import ContactItem from "../ContactItem/ContactItem";
 import AddContact from "./AddContact";
 import './contactList.css';
+import {socket} from "../../Babble";
 
-function ContactList({displayedContacts, setDisplayedContacts, focusedContact, setFocusedContact}) {
+function ContactList({
+                         displayedContacts,
+                         setDisplayedContacts,
+                         focusedContact,
+                         setFocusedContact,
+                     }) {
+
+    useEffect(() => {
+        const handleUpdateContact = (message) => {
+            setDisplayedContacts((prevContacts) => {
+                const updatedContacts = {...prevContacts}; // Create a shallow copy of the previous contacts dictionary
+
+                Object.keys(updatedContacts).forEach((key) => {
+                    if (updatedContacts[key].id === message.chatID) {
+                        updatedContacts[key] = {
+                            ...updatedContacts[key],
+                            lastMes: message.message.content,
+                            timeChatted: message.message.extendedTime
+                        };
+                    }
+                });
+
+                return updatedContacts;
+            });
+
+        };
+        // notify new message.
+        if (socket) {
+            socket.on('new-message', handleUpdateContact);
+
+            return () => {
+                socket.off('new-message', handleUpdateContact);
+            };
+        }
+
+    }, [setDisplayedContacts]);
 
 
     // create HTML of contact list.
@@ -11,7 +47,8 @@ function ContactList({displayedContacts, setDisplayedContacts, focusedContact, s
         if (key === focusedContact) { // create contact item for focused contact.
             return <ContactItem name={contact.name} lastMes={contact.lastMes} unreads={0} pic={contact.pic} key={key}
                                 username={key} focus={true} setFocusedContact={setFocusedContact}
-                                focusedContact={focusedContact} id={contact.id} setDisplayedContacts={setDisplayedContacts}
+                                focusedContact={focusedContact} id={contact.id}
+                                setDisplayedContacts={setDisplayedContacts}
                                 displayedContacts={displayedContacts}/>;
         }
         return <ContactItem {...contact} key={key} username={key} focus={false} setFocusedContact={setFocusedContact}/>;
@@ -21,7 +58,9 @@ function ContactList({displayedContacts, setDisplayedContacts, focusedContact, s
     // (So contactListRef will not change its reference between renders, resulting in
     // infinite loop of the useEffect)
     const contactListRef = useRef(contactList);
-    useEffect(() => { contactListRef.current = contactList; });
+    useEffect(() => {
+        contactListRef.current = contactList;
+    });
 
     // Matching contacts according to search.
     const [matchingContactList, setMatchingContactList] = useState(contactList);

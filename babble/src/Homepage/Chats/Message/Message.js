@@ -1,17 +1,23 @@
 import './message.css'
+import {getFile} from "../../../DataAccess/chats";
 
-function Message({content, reply, timeSent, attachedFile}) {
+function Message({id ,content, reply, timeSent, attachedFile}) {
 
-    const handleDownload = function () {
+    const handleDownload = async function () {
         if (attachedFile) {
-            const url = URL.createObjectURL(attachedFile);
+
+            const file = await getFile(id);
+            if(file === 'error') {
+                alert("An error occurred downloading your file from the server.");
+                return;
+            }
+            const fileData = file.data;
 
             const link = document.createElement('a');
-            link.href = url;
-            link.download = attachedFile.name;
+            link.href = fileData;
+            link.download = attachedFile;
 
             link.click();
-            URL.revokeObjectURL(url);
         }
     };
 
@@ -26,7 +32,7 @@ function Message({content, reply, timeSent, attachedFile}) {
                             id="downloadButton"
                             onClick={handleDownload}>
                             Download Attached File
-                            <label className='file-name'> - {attachedFile.name}</label>
+                            <label className='file-name'> - {attachedFile}</label>
                         </button>
                     </>
                 }

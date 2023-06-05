@@ -1,24 +1,22 @@
 import {deleteContact} from "../../../DataAccess/contacts";
-import io from "socket.io-client";
-const socket = io.connect("localhost:5001");
-
+import {socket} from "../../Babble";
 
 function RemoveContact({focusedContact, id, setDisplayedContacts, setFocusedContact}) {
 
-    const handleDelete = function () {
-        if(window.confirm("Please note that this action cannot be undone. Press OK to delete.")){
-            console.log("id: " + id);
-            deleteContact(id);
+    const handleDelete = async function () {
+        if (window.confirm("Please note that this action cannot be undone. Press OK to delete.")) {
+            await deleteContact(id);
             setFocusedContact("");
             setDisplayedContacts(
                 (displayedContacts) => {
-                    const newContacts = { ...displayedContacts };
+                    const newContacts = {...displayedContacts};
                     delete newContacts[focusedContact];
                     return newContacts;
                 });
-                
+            if (socket) {
+                socket.emit('remove-chat', focusedContact);
             }
-        socket.emit("send_message");
+        }
     }
 
     return (

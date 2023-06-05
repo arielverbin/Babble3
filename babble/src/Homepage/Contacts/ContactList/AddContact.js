@@ -1,6 +1,7 @@
 import {useRef} from "react";
 import './addContact.css'
 import {addContact} from "../../../DataAccess/contacts";
+import {socket} from "../../Babble";
 
 function AddContact({setDisplayedContacts, displayedContacts}) {
 
@@ -15,7 +16,7 @@ function AddContact({setDisplayedContacts, displayedContacts}) {
         }
 
         const rawContact = await addContact(username);
-        if(typeof rawContact === 'string') {
+        if (typeof rawContact === 'string') {
             alert(rawContact);
             return;
         }
@@ -33,6 +34,10 @@ function AddContact({setDisplayedContacts, displayedContacts}) {
             ...newContact,
             ...displayedContacts
         }));
+        // notify new chat.
+        if (socket) {
+            socket.emit('add-chat', username);
+        }
     }
 
     // support adding contact via pressing enter,
@@ -98,8 +103,8 @@ function AddContact({setDisplayedContacts, displayedContacts}) {
                                 className="btn btn-primary"
                                 data-bs-dismiss="modal"
                                 id="add-contact-btn"
-                                onClick={() => {
-                                    handleAddContact();
+                                onClick={async () => {
+                                    await handleAddContact();
                                     contactBox.current.value = "";
                                 }}>
                                 Add

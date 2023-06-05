@@ -1,16 +1,18 @@
 const Chat = require('../models/chat');
 const User = require('../models/user');
-
+const Message = require('../models/message')
+const FilesAttach = require('../models/files')
+const userService = require('./user');
 // Create a new chat between user1 and user2.
 const createChat = async (user1, user2) => {
     try {
         const chat = new Chat({
-            users: [user1, user2]
+            users: [user1.id, user2.id] // Extract the _id values from user1 and user2
         });
         await chat.save();
-        return chat._id;
+        return chat._id.toString(); // Convert _id to string
     } catch (error) {
-        console.log('Error creaing chat: ' + error);
+        console.log('Error creating chat: ' + error);
         return null;
     }
 };
@@ -28,7 +30,7 @@ const searchChatsByUser = async (username) => {
         const otherUser = chat.users.find(user => user.username !== username);
 
         return {
-            id: chat.id,
+            id: chat._id,
             user: otherUser,
             lastMessage: chat.messages[0] || null
         };
@@ -38,31 +40,78 @@ const searchChatsByUser = async (username) => {
 
 const searchChatsByIDs = async (user1Id, user2Id) => {
     try {
-        return await Chat.find({
+        const chats = await Chat.find({
             users: {
                 $all: [user1Id, user2Id]
             }
         }).populate('users').populate('messages');
+
+        return chats.map((chat) => {
+            const {_id, ...chatData} = chat.toObject();
+            return {id: _id, ...chatData};
+        });
     } catch (error) {
         console.log("Error in finding chats: " + error);
         return null;
     }
-}
+};
+
 
 const deleteChat = async (chatId) => {
-    return Chat.deleteOne({_id: chatId});
+    try {
+        // Find the chat by its _id and populate the 'messages' field
+        const chat = await Chat.findOne({_id: chatId}).populate('messages');
+
+        if (!chat) {
+            // Chat not found
+            return -1;
+        }
+
+        // Delete files with attachedMsg that belong to messages in the chat
+        const fileDeletionPromises = chat.messages.map(async (message) => {
+            await FilesAttach.deleteMany({attachedMsg: message._id});
+        });
+
+        await Promise.all(fileDeletionPromises);
+
+        // Delete the messages from the 'messages' array in MessageSchema
+        await Message.deleteMany({_id: {$in: chat.messages}});
+
+        // Delete the chat
+        await Chat.deleteOne({_id: chatId});
+
+        return 1;
+    } catch (error) {
+        console.error('Error deleting chat:', error);
+        return 0;
+    }
 }
 
 const findChatById = async (id) => {
-    return Chat.findOne({_id: id}).populate('users')
-        .populate({
-            path: 'messages',
-            populate: {
-                path: 'sender',
-                model: 'User'
-            }
-        });
-}
+    try {
+        const chat = await Chat.findOne({_id: id})
+            .populate('users')
+            .populate({
+                path: 'messages',
+                populate: {
+                    path: 'sender',
+                    model: 'User'
+                }
+            })
+            .lean();
+
+        if (chat) {
+            const {_id, ...chatData} = chat;
+            return {id: _id, ...chatData};
+        } else {
+            return null;
+        }
+    } catch (error) {
+        console.log("Error in finding chat: " + error);
+        return null;
+    }
+};
+
 
 const addMsgToChat = async (chatId, msgID) => {
     try {
@@ -76,4 +125,38 @@ const addMsgToChat = async (chatId, msgID) => {
     }
 }
 
-module.exports = {createChat, searchChatsByIDs, searchChatsByUser, deleteChat, findChatById, addMsgToChat}
+const findReceiver = async (senderUsername, chatID) => {
+    const senderID = (await userService.getUser(senderUsername)).id;
+    const curChat = await Chat.findOne({_id: chatID}).populate('users');
+    const receiver = curChat.users.find(user => user._id.toString() !== senderID.toString());
+    return receiver.currentSocket;
+}
+
+const notifyNewChat = async (io, socketID) => {
+    const socket = io.sockets.sockets.get(socketID);
+    if (socket) {
+        socket.emit('new-chat', 'true');
+    } else {
+        console.log("Socket not found;")
+    }
+}
+
+const notifyRemoveChat = async (io, socketID) => {
+    const socket = io.sockets.sockets.get(socketID);
+    if (socket) {
+        socket.emit('deleted-chat', 'true');
+    } else {
+        console.log("Socket not found;")
+    }
+}
+module.exports = {
+    createChat,
+    searchChatsByIDs,
+    searchChatsByUser,
+    deleteChat,
+    findChatById,
+    addMsgToChat,
+    findReceiver,
+    notifyNewChat,
+    notifyRemoveChat
+}

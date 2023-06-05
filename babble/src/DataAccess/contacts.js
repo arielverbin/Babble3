@@ -1,3 +1,7 @@
+// NOTE: 'contact' represents a chat. contactID is the chatID.
+
+import {serverAddress} from "./users";
+
 function convertTimeFormat(timeString) {
     const dateTime = new Date(timeString);
 
@@ -11,8 +15,9 @@ function convertTimeFormat(timeString) {
 }
 
 export async function getContacts() {
+    console.log("fetching...");
     try {
-        const res = await fetch('http://localhost:5001/api/Chats', {
+        const res = await fetch(serverAddress + '/api/Chats', {
             'method': 'get',
             'headers': {
                 'Content-Type': 'application/json',
@@ -41,12 +46,12 @@ export async function getContacts() {
                     focus: false
                 }
             }
-            console.log("contacts: " + contacts[0]);
+            console.log("got:" + JSON.stringify(contacts));
             return contacts;
         }
         return 'An error occurred, please try again.';
     } catch (error) {
-        console.error('Error fetching messages:', error);
+        console.log('Error fetching messages:', error);
         return 'An error occurred, please try again.';
     }
 }
@@ -54,7 +59,7 @@ export async function getContacts() {
 export async function addContact(username) {
 
     try {
-        const res = await fetch('http://localhost:5001/api/Chats', {
+        const res = await fetch(serverAddress + '/api/Chats', {
             'method': 'post',
             'headers': {
                 'Content-Type': 'application/json',
@@ -84,14 +89,14 @@ export async function addContact(username) {
         }
         return "Ooopss! We've run into a problem :(\nPlease try again later";
     } catch (error) {
-        console.error('Error fetching messages:', error);
+        console.log('Error fetching messages:', error);
         return "Ooopss! We've run into a problem :(\nPlease try again later";
     }
 }
 
 export async function deleteContact(contactID) {
     try {
-        const res = await fetch('http://localhost:5001/api/Chats/' + contactID.toString(), {
+        const res = await fetch(serverAddress + '/api/Chats/' + contactID.toString(), {
             'method': 'delete',
             'headers': {
                 'Content-Type': 'application/json',
@@ -102,7 +107,7 @@ export async function deleteContact(contactID) {
         return res.status === 200 ? 'success' :
             "Ooopss! We've run into a problem :(\nPlease try again later";
     } catch (error) {
-        console.error('Error fetching messages:', error);
+        console.log('Error fetching messages:', error);
         return "Ooopss! We've run into a problem :(\nPlease try again later";
     }
 }
