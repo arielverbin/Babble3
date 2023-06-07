@@ -110,7 +110,6 @@ export async function loginUser(username, password) {
         if (res.status === 200) {
 
             // establish a WebSocket connection with the server.
-            console.log('establish a WebSocket connection with the server: ' + username);
             setSocket(io.connect("localhost:5001", {
                 query: {
                     username: username

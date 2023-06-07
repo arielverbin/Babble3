@@ -15,7 +15,6 @@ function convertTimeFormat(timeString) {
 }
 
 export async function getContacts() {
-    console.log("fetching...");
     try {
         const res = await fetch(serverAddress + '/api/Chats', {
             'method': 'get',
@@ -46,7 +45,6 @@ export async function getContacts() {
                     focus: false
                 }
             }
-            console.log("got:" + JSON.stringify(contacts));
             return contacts;
         }
         return 'An error occurred, please try again.';

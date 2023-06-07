@@ -104,3 +104,17 @@
     background-image: url(../buttons/home-btn-hover.png);
 
 }
+
+
+#sound-setting {
+    position: absolute;
+    left: calc(50% - 12px);
+    bottom: 90px;
+    background: none;
+    height: 25px;
+    width: 25px;
+    opacity: 0.9;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}

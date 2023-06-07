@@ -2,6 +2,7 @@ import {useRef, useState} from 'react';
 import './sendMessage.css'
 import {sendMessage} from "../../../DataAccess/chats";
 import {socket} from "../../Babble";
+import audioSent from './message-sent.mp3';
 
 function SendMessage({setCurChat, curContact, contacts, setContacts}) {
 
@@ -96,6 +97,10 @@ function SendMessage({setCurChat, curContact, contacts, setContacts}) {
                 sender: localStorage.getItem('username'),
                 message: newMessage
             });
+        }
+        if (localStorage.getItem('sound-setting') === 'true') {
+            const audio = new Audio(audioSent);
+            audio.play();
         }
 
         inputBox.current.focus();

@@ -35,7 +35,10 @@ mongoose.connect(process.env.CONNECTION_STRING, {
 });
 
 // Any files in the public directory can be accessed directly by the client.
-app.use(express.static('public'))
+app.use("/", express.static('public'));
+app.use("/login", express.static('public'));
+app.use("/register", express.static('public'));
+app.use("/babble", express.static('public'));
 
 // Route setup.
 const users = require('./routes/user');
@@ -48,13 +51,14 @@ const chats = require('./routes/chat');
 app.use('/api/Chats', chats);
 
 const token = require('./routes/Token');
+const {env} = require("custom-env");
 app.use('/api/Tokens', token);
 
 // initialize http server.
 const server = http.createServer(app)
 const io = new Server(server, {
     cors: {
-        origin: "http://localhost:3000",
+        origin: "http://localhost:" + process.env.PORT,
         methods: ["GET", "POST", "DELETE", "PUT"],
     },
 });
